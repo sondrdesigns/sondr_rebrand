@@ -1,0 +1,164 @@
+<!-- @dsCard group="Sondr Site" viewport="1440x820" name="Marketing site" subtitle="Fixed left-margin nav · right side scrolls · works pan sideways" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sondr Designs</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; }
+  body {
+    background-color: var(--paper);
+    background-image: radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--grid-pitch) var(--grid-pitch);
+    color: var(--ink);
+    cursor: url('../../assets/pin-cursor.svg') 4 27, auto;
+  }
+  *, *:hover {
+    cursor: url('../../assets/pin-cursor.svg') 4 27, auto !important;
+  }
+  a { color: var(--ink); }
+  a:hover { color: var(--ink-soft); }
+
+  /* ---- fixed left notebook margin + nav ---- */
+  .sidebar {
+    position: fixed; top: 0; left: 0; width: 200px; height: 100vh; z-index: 60;
+    box-sizing: border-box; padding: 36px 0 36px 34px;
+    border-right: 1.5px solid var(--rule-color);
+    background-color: var(--paper);
+    background-image: radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--grid-pitch) var(--grid-pitch);
+    display: flex; flex-direction: column;
+  }
+  .side-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; color: var(--ink-soft); margin: 4px 0 26px; }
+  .side-nav { display: flex; flex-direction: column; gap: 26px; }
+  .sondr-icon {
+    display: flex; align-items: center; gap: 11px;
+    font-family: var(--font-mono); font-size: 15px; letter-spacing: .1em;
+    color: var(--ink); text-decoration: none; cursor: pointer;
+    background: none; border: none; padding: 0; opacity: .7;
+    transition: opacity .15s ease;
+  }
+  .sondr-icon:hover { opacity: 1; }
+  .sondr-icon.current { opacity: 1; }
+  .sondr-icon .lbl { padding-bottom: 2px; border-bottom: 2px solid transparent; }
+  .sondr-icon.current .lbl { border-bottom-color: var(--ink); }
+  .home-dot { width: 22px; display: flex; justify-content: center; align-items: center; }
+  .house-svg { overflow: visible; }
+  .house-roof { transform-origin: 11px 11px; }
+  @keyframes roof-explode {
+    0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+    12%  { transform: translate(1px,-2px) rotate(4deg); opacity: 1; }
+    100% { transform: translate(-4px,-26px) rotate(-28deg); opacity: 0; }
+  }
+  .sondr-icon:hover .house-roof { animation: roof-explode 0.42s cubic-bezier(.15,0,.6,1) forwards; }
+
+  /* ---- scrolling content ---- */
+  .content { margin-left: 200px; }
+  .content-logo { display: flex; justify-content: center; padding: 30px 70px 0; }
+  .logo-strip {
+    position: relative; width: 260px; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; cursor: pointer;
+  }
+  .logo-strip img {
+    position: absolute; top: 50%; left: 50%; width: 250px; height: auto;
+    transform: translate(-50%,-50%) rotate(-2deg); z-index: -1; opacity: .95;
+    pointer-events: none; filter: drop-shadow(2px 3px 4px rgba(0,0,0,.2));
+  }
+  .logo-text { position: relative; font-family: var(--font-mono); font-size: 22px; letter-spacing: .14em; color: var(--ink); text-align: center; line-height: 1.2; }
+  .logo-text small { display: block; font-size: 10px; letter-spacing: .18em; color: var(--ink-soft); margin-top: 3px; }
+
+  .page-enter { animation: pageIn .4s ease; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 820px) {
+    .sidebar { position: static; width: auto; height: auto; flex-direction: row; align-items: center;
+      gap: 18px; padding: 14px 20px; border-right: none; border-bottom: 1.5px solid var(--rule-color); overflow-x: auto; }
+    .side-label { display: none; }
+    .side-nav { flex-direction: row; gap: 18px; }
+    .sondr-icon .lbl { display: none; }
+    .content { margin-left: 0; }
+    .content-logo { justify-content: center; padding: 20px 20px 0; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="data.js"></script>
+<script src="HomeScreen.jsx" type="text/babel"></script>
+<script src="WorksScreen.jsx" type="text/babel"></script>
+<script src="BlogScreen.jsx" type="text/babel"></script>
+<script src="ContactScreen.jsx" type="text/babel"></script>
+<script src="StudioScreen.jsx" type="text/babel"></script>
+<script src="InteriorScreen.jsx" type="text/babel"></script>
+<script type="text/babel">
+  const { SondrIcon } = window.SondrDesignsDesignSystem_41b26a;
+  const { NAV } = window.SondrData;
+
+  function Sidebar({ page, go }) {
+    return (
+      <div className="sidebar">
+        <div className="side-label">page navigation</div>
+        <nav className="side-nav">
+          <a href="#" className={'sondr-icon' + (page === 'home' ? ' current' : '')}
+             onClick={(e) => { e.preventDefault(); go('home'); }}>
+            <span className="home-dot">
+              <svg className="house-svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* walls + door */}
+                <rect x="3" y="11" width="16" height="10" fill="currentColor" rx="0.5"/>
+                <rect x="8" y="15" width="4" height="6" fill="var(--paper)"/>
+                {/* roof */}
+                <polygon className="house-roof" points="1,12 11,2 21,12" fill="currentColor"/>
+              </svg>
+            </span><span className="lbl">home</span>
+          </a>
+          {NAV.map((n) => (
+            <a key={n.id} href="#" className={'sondr-icon' + (page === n.id ? ' current' : '')}
+               onClick={(e) => { e.preventDefault(); go(n.id); }}>
+              <SondrIcon name={n.icon} size={22} /><span className="lbl">{n.label}</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    );
+  }
+
+  const SCREENS = {
+    home: (go) => <window.HomeScreen go={go} />,
+    works: () => <window.WorksScreen />,
+    blog: () => <window.BlogScreen />,
+    contact: () => <window.ContactScreen />,
+    studio: () => <window.StudioScreen />,
+    interior: (go) => <window.InteriorScreen go={go} />,
+  };
+
+  function App() {
+    const [page, setPage] = React.useState('home');
+    const go = (p) => { setPage(p); window.scrollTo({ top: 0 }); };
+    return (
+      <div>
+        <Sidebar page={page} go={go} />
+        <div className="content">
+          <header className="content-logo">
+            <a className="logo-strip" href="#" title="logo goes here" onClick={(e) => { e.preventDefault(); go('home'); }}>
+              <img src="../../assets/tape-cream.png" alt="" />
+              <span className="logo-text">sondr designs<small>logo goes here</small></span>
+            </a>
+          </header>
+          <div className="page-enter" key={page}>
+            {SCREENS[page](go)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

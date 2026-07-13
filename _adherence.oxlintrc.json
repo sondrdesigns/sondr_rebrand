@@ -1,0 +1,303 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/core/**",
+              "components/navigation/**",
+              "components/scrapbook/**",
+              "components/typography/**",
+              "ui_kits/sondr-site/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Inter|Intel One Mono))/i]",
+        "message": "Font not provided by the design system. Available: Inter, Intel One Mono."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|size|as|href|onClick|disabled|style|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, size, as, href, onClick, disabled, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:outline|solid|sticky)$/]",
+        "message": "<Button> variant must be one of 'outline' | 'solid' | 'sticky'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='as'] > Literal[value!=/^(?:button|a)$/]",
+        "message": "<Button> as must be one of 'button' | 'a'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Card'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|padded|lift|style|key|ref|className|style|children)$/]",
+        "message": "<Card> doesn't accept that prop. Declared props: children, padded, lift, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Divider'] > JSXAttribute > JSXIdentifier[name!=/^(?:orientation|variant|color|length|style|key|ref|className|style|children)$/]",
+        "message": "<Divider> doesn't accept that prop. Declared props: orientation, variant, color, length, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Divider'] > JSXAttribute[name.name='orientation'] > Literal[value!=/^(?:horizontal|vertical)$/]",
+        "message": "<Divider> orientation must be one of 'horizontal' | 'vertical'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Divider'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:solid|dashed)$/]",
+        "message": "<Divider> variant must be one of 'solid' | 'dashed'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DottedGrid'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|margin|paper|style|key|ref|className|style|children)$/]",
+        "message": "<DottedGrid> doesn't accept that prop. Declared props: children, margin, paper, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Field'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|placeholder|multiline|rows|value|onChange|type|style|key|ref|className|style|children)$/]",
+        "message": "<Field> doesn't accept that prop. Declared props: label, placeholder, multiline, rows, value, onChange, type, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FlipPolaroid'] > JSXAttribute > JSXIdentifier[name!=/^(?:src|caption|title|meta|notes|tilt|width|assetBase|style|key|ref|className|style|children)$/]",
+        "message": "<FlipPolaroid> doesn't accept that prop. Declared props: src, caption, title, meta, notes, tilt, width, assetBase, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Heading'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|level|as|color|style|key|ref|className|style|children)$/]",
+        "message": "<Heading> doesn't accept that prop. Declared props: children, level, as, color, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Heading'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:display|title|heading)$/]",
+        "message": "<Heading> level must be one of 'display' | 'title' | 'heading'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MonoText'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|as|size|muted|style|key|ref|className|style|children)$/]",
+        "message": "<MonoText> doesn't accept that prop. Declared props: children, as, size, muted, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MonoText'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:lead|body|small)$/]",
+        "message": "<MonoText> size must be one of 'lead' | 'body' | 'small'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NavItem'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|href|current|onClick|style|key|ref|className|style|children)$/]",
+        "message": "<NavItem> doesn't accept that prop. Declared props: children, href, current, onClick, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PolaroidCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:src|caption|tilt|width|assetBase|onClick|style|key|ref|className|style|children)$/]",
+        "message": "<PolaroidCard> doesn't accept that prop. Declared props: src, caption, tilt, width, assetBase, onClick, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SondrIcon'] > JSXAttribute > JSXIdentifier[name!=/^(?:name|size|stroke|style|key|ref|className|style|children)$/]",
+        "message": "<SondrIcon> doesn't accept that prop. Declared props: name, size, stroke, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SondrIcon'] > JSXAttribute[name.name='name'] > Literal[value!=/^(?:works|blog|contact|studio|interior)$/]",
+        "message": "<SondrIcon> name must be one of 'works' | 'blog' | 'contact' | 'studio' | 'interior'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StickyNote'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tilt|color|size|style|key|ref|className|style|children)$/]",
+        "message": "<StickyNote> doesn't accept that prop. Declared props: children, tilt, color, size, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Tape'] > JSXAttribute > JSXIdentifier[name!=/^(?:color|width|tilt|assetBase|style|key|ref|className|style|children)$/]",
+        "message": "<Tape> doesn't accept that prop. Declared props: color, width, tilt, assetBase, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Tape'] > JSXAttribute[name.name='color'] > Literal[value!=/^(?:blue|cream)$/]",
+        "message": "<Tape> color must be one of 'blue' | 'cream'."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "Card": {
+        "replaces": []
+      },
+      "Divider": {
+        "replaces": []
+      },
+      "DottedGrid": {
+        "replaces": []
+      },
+      "Field": {
+        "replaces": []
+      },
+      "FlipPolaroid": {
+        "replaces": []
+      },
+      "Heading": {
+        "replaces": []
+      },
+      "MonoText": {
+        "replaces": []
+      },
+      "NavItem": {
+        "replaces": []
+      },
+      "PolaroidCard": {
+        "replaces": []
+      },
+      "SondrIcon": {
+        "replaces": []
+      },
+      "StickyNote": {
+        "replaces": []
+      },
+      "Tape": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--body-font",
+      "--body-lh",
+      "--border-hairline",
+      "--dot",
+      "--dot-size",
+      "--dotted-grid",
+      "--font-display",
+      "--font-mono",
+      "--grid-pitch",
+      "--heading-font",
+      "--heading-tracking",
+      "--heading-transform",
+      "--heading-weight",
+      "--ink",
+      "--ink-soft",
+      "--margin-rule-x",
+      "--paper",
+      "--paper-edge",
+      "--paper-white",
+      "--radius-none",
+      "--radius-note",
+      "--radius-soft",
+      "--rule-color",
+      "--shadow-lift",
+      "--shadow-sticky",
+      "--shadow-tape",
+      "--space-1",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--sticky-yellow",
+      "--surface-card",
+      "--surface-page",
+      "--tape-blue",
+      "--tape-cream",
+      "--text-body",
+      "--text-display",
+      "--text-display-lh",
+      "--text-heading",
+      "--text-lead",
+      "--text-muted",
+      "--text-primary",
+      "--text-small",
+      "--text-title",
+      "--tilt-lg",
+      "--tilt-md",
+      "--tilt-sm",
+      "--tracking-normal",
+      "--tracking-wide",
+      "--weight-medium",
+      "--weight-regular",
+      "--weight-semibold"
+    ],
+    "tokenKinds": {
+      "--paper": "color",
+      "--paper-white": "color",
+      "--ink": "color",
+      "--ink-soft": "color",
+      "--dot": "color",
+      "--paper-edge": "color",
+      "--sticky-yellow": "color",
+      "--tape-blue": "color",
+      "--tape-cream": "color",
+      "--shadow-sticky": "shadow",
+      "--shadow-tape": "shadow",
+      "--shadow-lift": "shadow",
+      "--surface-page": "color",
+      "--surface-card": "color",
+      "--text-primary": "font",
+      "--text-muted": "font",
+      "--rule-color": "color",
+      "--border-hairline": "color",
+      "--font-display": "font",
+      "--font-mono": "font",
+      "--weight-regular": "font",
+      "--weight-medium": "font",
+      "--weight-semibold": "font",
+      "--tracking-wide": "font",
+      "--tracking-normal": "font",
+      "--text-display": "font",
+      "--text-display-lh": "font",
+      "--text-title": "font",
+      "--text-heading": "font",
+      "--text-lead": "font",
+      "--text-body": "font",
+      "--text-small": "font",
+      "--heading-font": "font",
+      "--heading-weight": "font",
+      "--heading-transform": "other",
+      "--heading-tracking": "font",
+      "--body-font": "font",
+      "--body-lh": "other",
+      "--grid-pitch": "spacing",
+      "--dot-size": "spacing",
+      "--margin-rule-x": "spacing",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--radius-none": "radius",
+      "--radius-note": "radius",
+      "--radius-soft": "radius",
+      "--tilt-sm": "other",
+      "--tilt-md": "other",
+      "--tilt-lg": "other",
+      "--dotted-grid": "color"
+    },
+    "fontFamilies": [
+      "Intel One Mono",
+      "Inter"
+    ]
+  }
+}

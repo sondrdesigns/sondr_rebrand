@@ -1,0 +1,25 @@
+<!-- @dsCard group="Brand" viewport="700x260" name="Supplies — tape & sticky" subtitle="Real tape bitmaps and the post-it note" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; background: var(--paper);
+    background-image: radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--grid-pitch) var(--grid-pitch); }
+  .stage { position: relative; height: 260px; }
+  .tape { position: absolute; height: auto; filter: drop-shadow(2px 2px 3px rgba(0,0,0,.28)); }
+  .sticky { position: absolute; width: 150px; height: 140px; background: var(--sticky-yellow); box-shadow: var(--shadow-sticky);
+    font-family: var(--font-mono); font-size: 14px; letter-spacing: .08em; padding: 16px; box-sizing: border-box; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <img class="tape" src="../assets/tape-cream.png" style="width:210px; left:40px; top:34px; transform:rotate(-7deg)">
+    <img class="tape" src="../assets/tape-blue.png" style="width:230px; left:300px; top:24px; transform:rotate(4deg)">
+    <div class="sticky" style="left:80px; top:96px; transform:rotate(-4deg)">note to self</div>
+    <div class="sticky" style="left:470px; top:100px; transform:rotate(3deg); background:#c9e5ff">recolorable</div>
+  </div>
+</body>
+</html>

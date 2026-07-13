@@ -1,0 +1,33 @@
+/* Sondr Designs — Spacing, grid & surface tokens
+   The whole system sits on a dotted notebook grid. The dot pitch is the
+   base unit; margins, gaps and radii are multiples/relatives of it. */
+
+:root {
+  /* ---- Dotted-grid ---- */
+  --grid-pitch: 28px;        /* distance between dots */
+  --dot-size: 2px;           /* dot diameter */
+  --margin-rule-x: 180px;    /* left notebook margin line, from Figma */
+
+  /* ---- Spacing scale (loose, hand-placed feel) ---- */
+  --space-1: 8px;
+  --space-2: 14px;
+  --space-3: 28px;           /* == one grid cell */
+  --space-4: 56px;
+  --space-5: 84px;
+  --space-6: 120px;
+
+  /* ---- Radii — mostly none; paper has sharp cut edges ---- */
+  --radius-none: 0px;
+  --radius-note: 2px;        /* sticky-note nick */
+  --radius-soft: 6px;
+
+  /* ---- Playful rotations for taped/pinned elements ---- */
+  --tilt-sm: -2deg;   /* @kind other */
+  --tilt-md: 3deg;    /* @kind other */
+  --tilt-lg: -5deg;   /* @kind other */
+
+  /* ---- The dotted-grid paint (drop onto any surface) ---- */
+  --dotted-grid:
+    radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size))
+    0 0 / var(--grid-pitch) var(--grid-pitch);
+}

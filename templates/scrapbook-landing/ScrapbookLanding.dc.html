@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Scrapbook Landing" description="Sondr notebook-style landing page — taped wordmark, uppercase hero, sticky notes, polaroid works" -->
+<helmet>
+<script src="./ds-base.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Intel+One+Mono:wght@400;500&display=swap">
+<style>
+  body { margin: 0; }
+  a { color: #000; }
+  a:hover { color: rgb(102,99,99); }
+</style>
+</helmet>
+
+<div style="position:relative; min-height:100vh; background-color:rgb(255,251,240); background-image:radial-gradient(rgb(176,176,176) 2px, transparent 2px); background-size:28px 28px; padding:56px 80px 90px 200px; box-sizing:border-box; font-family:'Intel One Mono',monospace;">
+
+  <!-- left notebook margin rule -->
+  <span style="position:absolute; top:0; bottom:0; left:180px; border-left:1.5px solid rgb(102,99,99);"></span>
+
+  <!-- margin nav -->
+  <nav style="position:absolute; top:56px; left:40px; width:120px; display:flex; flex-direction:column; gap:32px; font-size:20px; letter-spacing:0.11em;">
+    <a href="#" style="text-decoration:none; border-bottom:2px solid #000; padding-bottom:2px; width:fit-content;">works</a>
+    <a href="#" style="text-decoration:none; opacity:0.72;">blog</a>
+    <a href="#" style="text-decoration:none; opacity:0.72;">mission</a>
+    <a href="#" style="text-decoration:none; opacity:0.72;">contact</a>
+  </nav>
+
+  <!-- taped wordmark (no logo in source — brand in type) -->
+  <div style="position:absolute; top:44px; left:560px;">
+    <img src="../../assets/tape-cream.png" alt="" style="position:absolute; width:300px; top:-8px; left:-40px; transform:rotate(-3deg); filter:drop-shadow(2px 3px 4px rgba(0,0,0,0.25));">
+    <span style="position:relative; font-size:22px; letter-spacing:0.14em; color:#000;">sondr designs</span>
+  </div>
+
+  <!-- sticky notes cluster -->
+  <div style="position:absolute; right:90px; top:300px;">
+    <div style="position:absolute; top:0; right:0; width:200px; min-height:170px; padding:22px 20px; background:rgb(250,240,137); box-shadow:6px 4px 4px 0 rgba(0,0,0,0.33); transform:rotate(4deg); font-size:15px; line-height:1.5; letter-spacing:0.08em; box-sizing:border-box;">since 2024 — we build sites with a soul.</div>
+    <div style="position:absolute; top:130px; right:60px; width:180px; min-height:150px; padding:22px 20px; background:#c9e5ff; box-shadow:6px 4px 4px 0 rgba(0,0,0,0.33); transform:rotate(-6deg); font-size:15px; line-height:1.5; letter-spacing:0.08em; box-sizing:border-box;">raw · organic · personal</div>
+  </div>
+
+  <!-- hero -->
+  <h1 style="max-width:800px; margin:64px 0 0; font-family:'Inter',sans-serif; font-weight:500; text-transform:uppercase; letter-spacing:0.11em; line-height:0.885; font-size:90px; color:#000;">crafting elevated digital experiences</h1>
+
+  <p style="max-width:620px; margin:34px 0 0; font-size:15px; line-height:1.7; letter-spacing:0.11em; color:#000;">we help businesses grow by crafting powerful digital platforms that drive conversion and define your identity in the online space.</p>
+
+  <div style="margin-top:40px; display:flex; gap:18px;">
+    <x-import component-from-global-scope="SondrDesignsDesignSystem_41b26a.Button" size="lg" hint-size="180px,60px">view works</x-import>
+    <x-import component-from-global-scope="SondrDesignsDesignSystem_41b26a.Button" size="lg" variant="solid" hint-size="200px,60px">get in touch</x-import>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

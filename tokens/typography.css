@@ -1,0 +1,40 @@
+/* Sondr Designs — Typography tokens
+   Two families do all the work:
+   • Inter, weight 500, UPPERCASE, tracked WIDE (0.11em) → display/headings.
+     This wide tracking is the signature — never set headlines tight.
+   • Intel One Mono → body, captions, labels, nav. Also tracked 0.11em.
+   Values transcribed from the Figma (96/50/35/20/15px; line-height 85–100%). */
+
+:root {
+  /* ---- Families ---- */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Intel One Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---- Weights ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* ---- Signature tracking ---- */
+  --tracking-wide: 0.11em;   /* headlines + mono labels */
+  --tracking-normal: 0em;
+
+  /* ---- Display scale (Inter, uppercase) ---- */
+  --text-display: 96px;      /* hero headline, line-height 85px */
+  --text-display-lh: 0.885;
+  --text-title: 50px;        /* section titles */
+  --text-heading: 35px;      /* sub-headings (can also be mono) */
+
+  /* ---- Body / UI scale ---- */
+  --text-lead: 20px;         /* nav items, buttons, labels */
+  --text-body: 15px;         /* mono paragraph copy */
+  --text-small: 13px;        /* fine print */
+
+  /* ---- Semantic ---- */
+  --heading-font: var(--font-display);
+  --heading-weight: var(--weight-medium);
+  --heading-transform: uppercase;   /* @kind other */
+  --heading-tracking: var(--tracking-wide);
+  --body-font: var(--font-mono);
+  --body-lh: 1.55;                   /* @kind other */
+}

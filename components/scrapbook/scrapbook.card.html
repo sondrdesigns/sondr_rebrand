@@ -1,0 +1,40 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Scrapbook — StickyNote, Tape, Polaroid, FlipPolaroid" subtitle="The physical scrapbook elements" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; padding: 30px; background: var(--paper);
+    background-image: radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--grid-pitch) var(--grid-pitch); }
+  .row { display: flex; align-items: center; gap: 46px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { StickyNote, Tape, PolaroidCard, FlipPolaroid } = window.SondrDesignsDesignSystem_41b26a;
+    function Demo() {
+      return (
+        <div className="row">
+          <StickyNote tilt={-4} size={150}>a short note, tracked wide.</StickyNote>
+          <div style={{ position: 'relative', width: 200, height: 90 }}>
+            <Tape color="blue" width={200} tilt={-5} assetBase="../../" style={{ position: 'absolute', top: 0, left: 0 }} />
+            <Tape color="cream" width={180} tilt={6} assetBase="../../" style={{ position: 'absolute', top: 48, left: 20 }} />
+          </div>
+          <PolaroidCard caption="featured work — 2025" tilt={-3} width={170} assetBase="../../" />
+          <FlipPolaroid width={170} tilt={2} assetBase="../../" caption="hover me · 2025"
+            title="meadow & co" meta="2025 · brand + web"
+            notes="hover flips the card to the notes on the back." />
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

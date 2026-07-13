@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Base — paper & ink" subtitle="Warm paper, white sheet, ink, soft ink" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-mono); background: var(--paper); }
+  .row { display: flex; gap: 0; height: 150px; }
+  .sw { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; box-sizing: border-box; }
+  .name { font-size: 12px; letter-spacing: .06em; }
+  .hex { font-size: 11px; letter-spacing: .04em; opacity: .6; }
+  .b { box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw b" style="background: var(--paper); color: var(--ink)"><span class="name">paper</span><span class="hex">255,251,240</span></div>
+    <div class="sw b" style="background: var(--paper-white); color: var(--ink)"><span class="name">paper-white</span><span class="hex">255,255,255</span></div>
+    <div class="sw" style="background: var(--ink); color: var(--paper)"><span class="name">ink</span><span class="hex">0,0,0</span></div>
+    <div class="sw" style="background: var(--ink-soft); color: #fff"><span class="name">ink-soft</span><span class="hex">102,99,99</span></div>
+  </div>
+</body>
+</html>

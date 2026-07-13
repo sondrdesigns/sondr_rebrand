@@ -1,0 +1,25 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Accents — supplies" subtitle="Sticky yellow, tape blue, tape cream, dot & edge grays" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-mono); background: var(--paper); }
+  .row { display: flex; gap: 0; height: 150px; }
+  .sw { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; box-sizing: border-box; }
+  .name { font-size: 12px; letter-spacing: .06em; }
+  .hex { font-size: 11px; letter-spacing: .04em; opacity: .6; }
+  .b { box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background: var(--sticky-yellow); color: var(--ink)"><span class="name">sticky-yellow</span><span class="hex">250,240,137</span></div>
+    <div class="sw" style="background: var(--tape-blue); color: #fff"><span class="name">tape-blue</span><span class="hex">0,81,255</span></div>
+    <div class="sw" style="background: var(--tape-cream); color: var(--ink)"><span class="name">tape-cream</span><span class="hex">232,216,178</span></div>
+    <div class="sw b" style="background: var(--dot); color: var(--ink)"><span class="name">dot</span><span class="hex">176,176,176</span></div>
+    <div class="sw b" style="background: var(--paper-edge); color: var(--ink)"><span class="name">paper-edge</span><span class="hex">217,217,217</span></div>
+  </div>
+</body>
+</html>
