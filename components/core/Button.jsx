@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 /**
@@ -60,7 +62,7 @@ export function Button({
     ...style,
   };
 
-  const Tag = as === 'a' || href ? 'a' : 'button';
+  const Tag = as && as !== 'button' ? as : href ? 'a' : 'button';
   return (
     <Tag
       href={href}

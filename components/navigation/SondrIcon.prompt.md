@@ -6,4 +6,4 @@
 </a>
 ```
 
-`name`: `works` (pulsing blue dot), `blog` (pen scribble), `contact` (envelope opens), `studio` (fingerprint flows), `interior` (lamp turns on). Animations trigger on hover of the nearest `.sondr-icon` ancestor, so wrap the icon **and** its label together in that class.
+`name`: `works` (spinning 3D cube), `blog` (pen scribble), `contact` (envelope opens), `studio` (fingerprint flows), `interior` (lamp turns on). Animations trigger on hover of the nearest `.sondr-icon` ancestor, so wrap the icon **and** its label together in that class.

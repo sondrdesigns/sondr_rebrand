@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- head shadow offset -->
+  <circle cx="23" cy="11" r="9" fill="rgba(0,0,0,0.18)"/>
+  <!-- spherical head -->
+  <circle cx="22" cy="10" r="9" fill="#cc1111"/>
+  <!-- broad highlight — gives the sphere illusion -->
+  <ellipse cx="18.5" cy="6.5" rx="4.5" ry="3.5" fill="rgba(255,255,255,0.30)"/>
+  <!-- specular dot -->
+  <circle cx="17" cy="5" r="1.8" fill="rgba(255,255,255,0.55)"/>
+  <!-- pin shaft -->
+  <line x1="14.5" y1="17" x2="4" y2="27" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <!-- tip -->
+  <circle cx="3.5" cy="27.5" r="1" fill="#222"/>
+</svg>

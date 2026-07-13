@@ -12,7 +12,7 @@ export interface SondrIconProps {
 
 /**
  * Sondr's hand-drawn animated nav icons. Animate on hover of the nearest
- * ancestor with class "sondr-icon": works=pulsing blue dot, blog=pen
+ * ancestor with class "sondr-icon": works=spinning 3D cube, blog=pen
  * scribble, contact=envelope opens, studio=fingerprint flows, interior=
  * lamp turns on. Wrap the icon + label in a `.sondr-icon` element.
  */
