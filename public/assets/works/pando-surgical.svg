@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+
+  <!-- Background: pale clinical blue-grey -->
+  <rect width="400" height="520" fill="#dde8ec"/>
+
+  <!-- Corner crop marks — four corners, clinical precision language -->
+  <path d="M 32 32 L 32 52 M 32 32 L 52 32"
+    stroke="#1a1a1a" stroke-width="1.4" fill="none" stroke-linecap="square" opacity="0.45"/>
+  <path d="M 368 32 L 368 52 M 368 32 L 348 32"
+    stroke="#1a1a1a" stroke-width="1.4" fill="none" stroke-linecap="square" opacity="0.45"/>
+  <path d="M 32 488 L 32 468 M 32 488 L 52 488"
+    stroke="#1a1a1a" stroke-width="1.4" fill="none" stroke-linecap="square" opacity="0.45"/>
+  <path d="M 368 488 L 368 468 M 368 488 L 348 488"
+    stroke="#1a1a1a" stroke-width="1.4" fill="none" stroke-linecap="square" opacity="0.45"/>
+
+  <!-- Laparoscopic instrument — angled from lower-left to upper-right -->
+  <!-- Main shaft — long thin tube -->
+  <line x1="80" y1="400" x2="320" y2="140"
+    stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>
+  <!-- Shaft highlight — inner lighter line to show tube roundness -->
+  <line x1="80" y1="400" x2="320" y2="140"
+    stroke="#dde8ec" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Handle grip — lower-left end, thickened grip section with finger ridges -->
+  <rect x="52" y="374" width="62" height="44" rx="8"
+    fill="#0051FF" stroke="#1a1a1a" stroke-width="2.4"/>
+  <!-- Grip ridges -->
+  <line x1="64" y1="383" x2="64" y2="409" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+  <line x1="74" y1="381" x2="74" y2="411" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+  <line x1="84" y1="380" x2="84" y2="412" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+  <line x1="94" y1="381" x2="94" y2="411" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+  <line x1="104" y1="383" x2="104" y2="409" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+  <!-- Thumb wheel / rotation knob — small circle at shaft–handle junction -->
+  <circle cx="100" cy="368" r="14"
+    fill="#7A8C8A" stroke="#1a1a1a" stroke-width="2.2"/>
+  <circle cx="100" cy="368" r="6"
+    fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
+
+  <!-- Tip / working end — upper-right -->
+  <!-- Circular port indicator — target circle around the tip -->
+  <circle cx="320" cy="140" r="32"
+    fill="none" stroke="#1a1a1a" stroke-width="1.6" opacity="0.35" stroke-dasharray="4 4"/>
+  <circle cx="320" cy="140" r="20"
+    fill="none" stroke="#1a1a1a" stroke-width="1.8" opacity="0.55"/>
+  <!-- Tip head — small rounded cap -->
+  <circle cx="320" cy="140" r="9"
+    fill="#7A8C8A" stroke="#1a1a1a" stroke-width="2.2"/>
+
+  <!-- Axis reference line — thin horizontal dashed rule, mid-card -->
+  <line x1="32" y1="260" x2="368" y2="260"
+    stroke="#1a1a1a" stroke-width="0.8" stroke-dasharray="3 6" opacity="0.18"/>
+
+</svg>

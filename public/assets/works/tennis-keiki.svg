@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+
+  <!-- Background: sage green -->
+  <rect width="400" height="520" fill="#cfe3d0"/>
+
+  <!-- Tennis court — overhead flat diagram, ink lines -->
+  <!-- Outer boundary -->
+  <rect x="52" y="80" width="296" height="360" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+  <!-- Net line — horizontal center -->
+  <line x1="52" y1="260" x2="348" y2="260" stroke="#1a1a1a" stroke-width="3"/>
+  <!-- Net post marks -->
+  <rect x="46" y="257" width="8" height="6" fill="#1a1a1a"/>
+  <rect x="346" y="257" width="8" height="6" fill="#1a1a1a"/>
+  <!-- Center service line — vertical, between service lines -->
+  <line x1="200" y1="148" x2="200" y2="372" stroke="#1a1a1a" stroke-width="1.6"/>
+  <!-- Service lines — top and bottom halves -->
+  <line x1="52" y1="148" x2="348" y2="148" stroke="#1a1a1a" stroke-width="1.6"/>
+  <line x1="52" y1="372" x2="348" y2="372" stroke="#1a1a1a" stroke-width="1.6"/>
+  <!-- Center mark at baseline -->
+  <line x1="200" y1="80" x2="200" y2="94" stroke="#1a1a1a" stroke-width="1.8"/>
+  <line x1="200" y1="426" x2="200" y2="440" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Coach figure — bottom left service box, larger -->
+  <!-- Body oval -->
+  <ellipse cx="128" cy="348" rx="16" ry="20" fill="#1a1a1a"/>
+  <!-- Head circle -->
+  <circle cx="128" cy="320" r="12" fill="#1a1a1a"/>
+  <!-- Racket arm — angled up toward ball -->
+  <line x1="140" y1="332" x2="176" y2="298" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+  <!-- Racket head — small oval at tip -->
+  <ellipse cx="182" cy="292" rx="10" ry="7" fill="none" stroke="#1a1a1a" stroke-width="3" transform="rotate(-30 182 292)"/>
+
+  <!-- Child figure — top right service box, smaller -->
+  <!-- Body oval -->
+  <ellipse cx="272" cy="172" rx="11" ry="15" fill="#E8834A" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Head circle -->
+  <circle cx="272" cy="151" r="9" fill="#E8834A" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Racket arm — angled down toward ball -->
+  <line x1="261" y1="162" x2="232" y2="196" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Racket head -->
+  <ellipse cx="226" cy="202" rx="9" ry="6" fill="none" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(40 226 202)"/>
+
+  <!-- Tennis ball — mid-air between them -->
+  <circle cx="200" cy="240" r="13" fill="#E8834A" stroke="#1a1a1a" stroke-width="2.2"/>
+  <!-- Seam curve on ball -->
+  <path d="M 190 232 Q 200 244, 210 232" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 190 248 Q 200 236, 210 248" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/>
+
+  <!-- Palm tree — leaning in from top-left corner -->
+  <!-- Trunk -->
+  <path d="M 52 80 Q 76 120, 88 168" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <!-- Frond 1 — arcs right -->
+  <path d="M 88 168 Q 132 144, 148 112" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Frond 2 — arcs up-right -->
+  <path d="M 88 168 Q 116 124, 116 92" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Frond 3 — arcs left -->
+  <path d="M 88 168 Q 60 152, 52 128" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Frond leaf tips — small strokes on frond 1 -->
+  <line x1="118" y1="128" x2="148" y2="112" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="126" y1="124" x2="140" y2="104" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+
+</svg>

@@ -8,18 +8,25 @@ import React from 'react';
  */
 export function FlipPolaroid({
   src,
+  logoSrc,
+  tint,
   caption,
   title,
   meta,
   notes,
+  url,
   tilt = -2,
   width = 260,
   assetBase = '',
+  comingSoon = false,
   style = {},
   ...rest
 }) {
   const frame = `${assetBase}assets/polaroid-frame.png`;
   const height = width * (951 / 731) + 8;
+
+  const imgSrc = logoSrc || src;
+
   return (
     <div
       className="sondr-flip"
@@ -41,6 +48,7 @@ export function FlipPolaroid({
           height: '100%',
           transition: 'transform 520ms cubic-bezier(0.37,0,0.63,1)',
           transformStyle: 'preserve-3d',
+          WebkitTransformStyle: 'preserve-3d',
         }}
       >
         {/* FRONT — polaroid */}
@@ -48,19 +56,41 @@ export function FlipPolaroid({
           style={{
             position: 'absolute', inset: 0, margin: 0,
             backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(0deg) translateZ(0.1px)',
             filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.20))',
           }}
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '731 / 951' }}>
-            <div
-              style={{
-                position: 'absolute', top: '5.5%', left: '9%', right: '9%', bottom: '17%',
-                background: 'var(--paper-edge)', backgroundSize: 'cover', backgroundPosition: 'center',
-                backgroundImage: src ? `url(${src})` : 'none',
-              }}
-            />
+            {/* Frame first — sets container height and provides the border */}
             <img src={frame} alt="" aria-hidden="true" draggable={false}
               style={{ position: 'relative', display: 'block', width: '100%', height: 'auto', pointerEvents: 'none' }} />
+            {/* Photo/tint renders after frame in DOM = paints on top, inside the window */}
+            <div style={{
+              position: 'absolute',
+              top: '5.5%', left: '9%', right: '9%', bottom: '17%',
+              backgroundColor: tint || 'var(--paper-edge)',
+              backgroundImage: imgSrc ? `url(${imgSrc})` : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }} />
+            {comingSoon && (
+              <div style={{
+                position: 'absolute',
+                left: '9%', right: '9%', bottom: '18%',
+                background: 'rgba(0,81,255,0.88)',
+                color: '#fff',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 10,
+                letterSpacing: '.18em',
+                padding: '6px 0',
+                textAlign: 'center',
+                zIndex: 2,
+                textTransform: 'lowercase',
+              }}>
+                coming soon
+              </div>
+            )}
           </div>
           {caption != null && (
             <figcaption style={{
@@ -76,7 +106,8 @@ export function FlipPolaroid({
           style={{
             position: 'absolute', inset: 0,
             backfaceVisibility: 'hidden',
-            transform: 'rotate3d(0.06, 1, 0.04, 180deg)',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg) translateZ(0.1px)',
             background: 'var(--paper-white)',
             boxShadow: 'inset 0 0 0 1px var(--ink), 0 6px 14px rgba(0,0,0,0.20)',
             padding: '26px 22px',
@@ -92,13 +123,39 @@ export function FlipPolaroid({
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 'var(--tracking-wide)', color: 'var(--ink-soft)', marginTop: 6 }}>{meta}</span>
           )}
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, lineHeight: '28px', letterSpacing: 'var(--tracking-wide)', color: 'var(--ink)', marginTop: 14 }}>{notes}</span>
-          <span aria-hidden="true" style={{ marginTop: 'auto', fontFamily: 'var(--font-mono)', fontSize: 22, color: 'var(--tape-blue)' }}>↩</span>
+          {url && !comingSoon && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                marginTop: 'auto',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 12,
+                letterSpacing: '.14em',
+                color: 'var(--tape-blue)',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                borderBottom: '1px solid var(--tape-blue)',
+                paddingBottom: 1,
+                width: 'fit-content',
+              }}
+            >
+              visit site →
+            </a>
+          )}
+          {(!url || comingSoon) && (
+            <span aria-hidden="true" style={{ marginTop: 'auto', fontFamily: 'var(--font-mono)', fontSize: 22, color: 'var(--tape-blue)' }}>↩</span>
+          )}
         </div>
       </div>
 
       <style>{`
         .sondr-flip:hover .sondr-flip-inner,
-        .sondr-flip:focus-within .sondr-flip-inner { transform: rotate3d(0.06, 1, 0.04, 180deg); }
+        .sondr-flip:focus-within .sondr-flip-inner { transform: rotateY(180deg); }
       `}</style>
     </div>
   );

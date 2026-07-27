@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+
+  <!-- Background: soft lavender -->
+  <rect width="400" height="520" fill="#d8d3ea"/>
+
+  <!-- Dividing line — vertical center rule -->
+  <line x1="200" y1="80" x2="200" y2="440"
+    stroke="#1a1a1a" stroke-width="1.6" opacity="0.35"/>
+
+  <!-- === LEFT HALF: ARTS === -->
+
+  <!-- Paint brush — angled, large, warm ink tone -->
+  <!-- Handle -->
+  <rect x="76" y="144" width="14" height="160" rx="4"
+    fill="#1a1a1a"
+    transform="rotate(-20 83 224)"/>
+  <!-- Ferrule band -->
+  <rect x="86" y="260" width="18" height="12" rx="2"
+    fill="#9a8870"
+    transform="rotate(-20 95 266)"/>
+  <!-- Bristle head — tapered shape -->
+  <path d="M 88 274 Q 78 290, 70 318 Q 78 330, 92 322 Q 106 310, 110 288 Z"
+    fill="#1a1a1a"
+    transform="rotate(-20 90 302)"/>
+  <!-- Bristle tip highlight -->
+  <path d="M 72 316 Q 78 326, 86 320"
+    fill="none" stroke="#9a8870" stroke-width="2" stroke-linecap="round"
+    transform="rotate(-20 79 321)"/>
+
+  <!-- Brushstroke mark — broad arc, warm ink, left quadrant -->
+  <path d="M 60 360 Q 100 330, 140 348 Q 160 356, 170 380"
+    fill="none" stroke="#1a1a1a" stroke-width="18" stroke-linecap="round" opacity="0.12"/>
+  <path d="M 60 360 Q 100 330, 140 348 Q 160 356, 170 380"
+    fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- === RIGHT HALF: SCIENCE === -->
+
+  <!-- Atom diagram — centered in right half, blueprint blue -->
+  <!-- Nucleus -->
+  <circle cx="300" cy="260" r="14" fill="#0051FF" stroke="#1a1a1a" stroke-width="2.2"/>
+
+  <!-- Electron orbit 1 — tilted ellipse -->
+  <ellipse cx="300" cy="260" rx="72" ry="32"
+    fill="none" stroke="#0051FF" stroke-width="2"
+    transform="rotate(0 300 260)" opacity="0.8"/>
+  <!-- Electron on orbit 1 -->
+  <circle cx="372" cy="260" r="7" fill="#0051FF" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Electron orbit 2 — tilted 60 deg -->
+  <ellipse cx="300" cy="260" rx="72" ry="32"
+    fill="none" stroke="#0051FF" stroke-width="2"
+    transform="rotate(60 300 260)" opacity="0.8"/>
+  <!-- Electron on orbit 2 -->
+  <circle cx="336" cy="205" r="7" fill="#0051FF" stroke="#1a1a1a" stroke-width="1.8"
+    transform="rotate(60 300 260)"/>
+
+  <!-- Electron orbit 3 — tilted 120 deg -->
+  <ellipse cx="300" cy="260" rx="72" ry="32"
+    fill="none" stroke="#0051FF" stroke-width="2"
+    transform="rotate(120 300 260)" opacity="0.8"/>
+  <!-- Electron on orbit 3 -->
+  <circle cx="228" cy="260" r="7" fill="#0051FF" stroke="#1a1a1a" stroke-width="1.8"
+    transform="rotate(120 300 260)"/>
+
+  <!-- "4" numeral — small, at the dividing line intersection, logo stamp -->
+  <text x="200" y="270"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="28" font-weight="bold"
+    fill="#1a1a1a" text-anchor="middle"
+    opacity="0.55">4</text>
+
+</svg>

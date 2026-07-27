@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+
+  <!-- Background: soft educational blue -->
+  <rect width="400" height="520" fill="#d4e4ee"/>
+
+  <!-- Open book / notebook — viewed slightly from above, two-page spread -->
+  <!-- Book spine shadow -->
+  <rect x="194" y="118" width="12" height="284" fill="#1a1a1a" opacity="0.15" rx="2"/>
+
+  <!-- Left page -->
+  <rect x="64" y="112" width="136" height="290" rx="4"
+    fill="#f7f4ef" stroke="#1a1a1a" stroke-width="2.4"/>
+  <!-- Left page ruled lines -->
+  <line x1="80" y1="160" x2="184" y2="160" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="178" x2="184" y2="178" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="196" x2="184" y2="196" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="214" x2="184" y2="214" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="232" x2="184" y2="232" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="250" x2="184" y2="250" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="268" x2="184" y2="268" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="286" x2="184" y2="286" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="304" x2="184" y2="304" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="322" x2="184" y2="322" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="340" x2="184" y2="340" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="80" y1="358" x2="184" y2="358" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <!-- Red margin line — left page -->
+  <line x1="92" y1="120" x2="92" y2="396" stroke="#e05050" stroke-width="1.2" opacity="0.35"/>
+
+  <!-- Right page -->
+  <rect x="200" y="112" width="136" height="290" rx="4"
+    fill="#f7f4ef" stroke="#1a1a1a" stroke-width="2.4"/>
+  <!-- Right page ruled lines -->
+  <line x1="216" y1="160" x2="320" y2="160" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="216" y1="178" x2="320" y2="178" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="216" y1="196" x2="320" y2="196" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="216" y1="214" x2="320" y2="214" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+  <line x1="216" y1="232" x2="320" y2="232" stroke="#1a1a1a" stroke-width="0.9" opacity="0.2"/>
+
+  <!-- A+ grade — right page, large, blueprint blue -->
+  <text x="260" y="310"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="86" font-weight="bold"
+    fill="#0051FF" text-anchor="middle"
+    opacity="0.90">A+</text>
+
+  <!-- K stamp — small, left page bottom, navy watermark -->
+  <text x="132" y="375"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="36" font-weight="bold"
+    fill="#1a2e5e" text-anchor="middle"
+    opacity="0.18">K</text>
+
+  <!-- Pencil — resting diagonally across the bottom of the book -->
+  <!-- Pencil body -->
+  <rect x="76" y="406" width="248" height="14" rx="3"
+    fill="#f0c040" stroke="#1a1a1a" stroke-width="2"
+    transform="rotate(-4 200 413)"/>
+  <!-- Pencil eraser end — left -->
+  <rect x="64" y="407" width="20" height="14" rx="3"
+    fill="#e8a0a0" stroke="#1a1a1a" stroke-width="2"
+    transform="rotate(-4 74 414)"/>
+  <!-- Eraser ferrule band -->
+  <rect x="82" y="407" width="8" height="14"
+    fill="#c0c0c0" stroke="#1a1a1a" stroke-width="1.4"
+    transform="rotate(-4 86 414)"/>
+  <!-- Pencil tip — right, sharpened triangle -->
+  <polygon points="322,406 322,420 340,413"
+    fill="#c49a6c" stroke="#1a1a1a" stroke-width="2"
+    transform="rotate(-4 322 413)"/>
+  <!-- Pencil tip graphite point -->
+  <polygon points="338,410 338,416 346,413"
+    fill="#1a1a1a"
+    transform="rotate(-4 338 413)"/>
+
+</svg>

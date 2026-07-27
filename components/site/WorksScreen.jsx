@@ -12,7 +12,7 @@ export function WorksScreen() {
   const shown = filter === 'all' ? WORKS : WORKS.filter((work) => work.role === filter);
 
   return (
-    <section style={{ padding: '58px 80px 100px' }}>
+    <section className="screen-section" style={{ padding: '58px 80px 100px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
         <div>
           <Heading level="title">the works library</Heading>
@@ -53,11 +53,15 @@ export function WorksScreen() {
             width={244}
             tilt={[-2, 2, -1, 3, -3, 1][index % 6]}
             assetBase="/"
-            src={swatch(work.tint)}
-            caption={`${work.title} · ${work.year}`}
+            src={work.image ? undefined : swatch(work.tint)}
+            logoSrc={work.image}
+            tint={work.tint}
+            caption={work.title}
             title={work.title}
-            meta={`${work.year} · ${work.role}`}
+            meta={work.role}
             notes={work.notes}
+            url={work.url}
+            comingSoon={work.comingSoon}
           />
         ))}
       </div>

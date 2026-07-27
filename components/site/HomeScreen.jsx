@@ -72,11 +72,15 @@ function FeaturedWorks() {
       width={290}
       tilt={[-3, 2, -2, 3, -1, 2][index % 6]}
       assetBase="/"
-      src={swatch(work.tint)}
-      caption={`${work.title} · ${work.year}`}
+      src={work.image ? undefined : swatch(work.tint)}
+      logoSrc={work.image}
+      tint={work.tint}
+      caption={work.title}
       title={work.title}
-      meta={`${work.year} · ${work.role}`}
+      meta={work.role}
       notes={work.notes}
+      url={work.url}
+      comingSoon={work.comingSoon}
       style={{ flex: '0 0 auto' }}
     />
   ));
@@ -98,8 +102,8 @@ function FeaturedWorks() {
           backgroundSize: 'var(--grid-pitch) var(--grid-pitch)',
         }}
       >
-        <div style={{ padding: '0 70px', marginBottom: 34, position: 'relative' }}>
-          <img src="/assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
+        <div style={{ padding: mobile ? '0 24px' : '0 70px', marginBottom: 34, position: 'relative' }}>
+          <img src="/assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
           <Heading level="title" style={{ position: 'relative' }}>featured works</Heading>
           <MonoText muted style={{ marginTop: 12, maxWidth: 520 }}>
             keep scrolling - the works run sideways, like flipping through a notebook. hover a photo to read the back.
@@ -111,7 +115,7 @@ function FeaturedWorks() {
             display: 'flex',
             alignItems: 'center',
             gap: 60,
-            padding: mobile ? '10px 70px 30px' : '10px 70px',
+            padding: mobile ? '10px 24px 30px' : '10px 70px',
             overflowX: mobile ? 'auto' : 'visible',
             willChange: 'transform',
           }}
@@ -135,9 +139,9 @@ const SERVICES = [
 
 function Footer() {
   return (
-    <footer style={{ padding: '60px 70px 70px', display: 'flex', justifyContent: 'space-between', gap: 40, flexWrap: 'wrap', borderTop: '1.5px solid var(--rule-color)' }}>
+    <footer className="footer-inner" style={{ padding: '60px 70px 70px', display: 'flex', justifyContent: 'space-between', gap: 40, flexWrap: 'wrap', borderTop: '1.5px solid var(--rule-color)' }}>
       <div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 24, letterSpacing: '.14em' }}>sondr designs</span>
+        <img src="/assets/sondr-text-logo.png" alt="Sondr Designs" className="footer-brand-logo" />
         <MonoText muted size="small" style={{ marginTop: 12 }}>© 2026 - crafted by hand, on paper first.</MonoText>
       </div>
       <div style={{ display: 'flex', gap: 60 }}>
@@ -151,11 +155,9 @@ function Footer() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <MonoText muted size="small">elsewhere</MonoText>
-          {['instagram', 'read.cv', 'are.na'].map((item) => (
-            <a key={item} href="#" onClick={(event) => event.preventDefault()} style={{ fontFamily: 'var(--font-mono)', fontSize: 15, letterSpacing: '.1em', color: 'var(--ink)', textDecoration: 'none' }}>
-              {item}
-            </a>
-          ))}
+          <a href="https://www.instagram.com/sondr.designs" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-mono)', fontSize: 15, letterSpacing: '.1em', color: 'var(--ink)', textDecoration: 'none' }}>
+            instagram
+          </a>
         </div>
       </div>
     </footer>
@@ -165,7 +167,7 @@ function Footer() {
 export function HomeScreen() {
   return (
     <div>
-      <section style={{ position: 'relative', padding: '30px 70px 66px' }}>
+      <section className="hero-section" style={{ position: 'relative', padding: '30px 70px 66px' }}>
         <div style={{ position: 'absolute', right: 60, top: 20 }}>
           <StickyNote tilt={4} size={196} style={{ position: 'absolute', top: 0, right: 0 }}>
             since 2024 - we build sites with a soul.
@@ -176,7 +178,7 @@ export function HomeScreen() {
         </div>
 
         <MonoText muted style={{ marginBottom: 22 }}>a design studio - web, brand & interiors</MonoText>
-        <Heading style={{ maxWidth: 820, fontSize: 88 }}>crafting elevated <span style={{ color: 'var(--tape-blue)' }}>digital</span> experiences</Heading>
+        <Heading className="hero-h1" style={{ maxWidth: 820, fontSize: 88 }}>crafting elevated <span style={{ color: 'var(--tape-blue)' }}>digital</span> experiences</Heading>
         <MonoText style={{ maxWidth: 600, marginTop: 32, lineHeight: 1.7 }}>
           we help businesses grow by crafting powerful digital platforms that drive conversion and define your identity in the online space.
         </MonoText>
@@ -191,7 +193,7 @@ export function HomeScreen() {
       <FeaturedWorks />
       <Divider />
 
-      <section style={{ padding: '70px 70px 84px', display: 'flex', gap: 90, flexWrap: 'wrap' }}>
+      <section className="services-section" style={{ padding: '70px 70px 84px', display: 'flex', gap: 90, flexWrap: 'wrap' }}>
         <div style={{ maxWidth: 420 }}>
           <Heading level="heading">what we do</Heading>
           <MonoText style={{ marginTop: 22, lineHeight: 1.8 }}>
@@ -211,10 +213,10 @@ export function HomeScreen() {
         </div>
       </section>
 
-      <section style={{ background: 'var(--tape-blue)', padding: '92px 70px', position: 'relative', overflow: 'hidden' }}>
+      <section className="cta-section" style={{ background: 'var(--tape-blue)', padding: '92px 70px', position: 'relative', overflow: 'hidden' }}>
         <img src="/assets/tape-cream.png" alt="" style={{ position: 'absolute', width: 240, top: -20, right: 120, transform: 'rotate(8deg)', opacity: 0.9 }} />
         <MonoText style={{ color: '#fff', letterSpacing: '.14em', marginBottom: 20 }}>got something in mind?</MonoText>
-        <Heading style={{ color: '#fff', fontSize: 72, maxWidth: 900 }}>let's make something unrepeatable</Heading>
+        <Heading className="cta-h2" style={{ color: '#fff', fontSize: 72, maxWidth: 900 }}>let's make something unrepeatable</Heading>
         <div style={{ marginTop: 40 }}>
           <Button as="a" href="/contact" size="lg" style={{ background: '#fff', color: 'var(--tape-blue)', boxShadow: 'none' }}>start a project</Button>
         </div>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <!-- Head -->
+  <circle cx="200" cy="186" r="76" fill="#1a1a1a" opacity="0.13"/>
+  <!-- Shoulders -->
+  <path d="M -30 560 Q 10 318 200 318 Q 390 318 430 560 Z" fill="#1a1a1a" opacity="0.13"/>
+</svg>

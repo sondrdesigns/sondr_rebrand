@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+
+  <!-- Background: blush / rose -->
+  <rect width="400" height="520" fill="#f3d9d2"/>
+
+  <!-- Building exterior wall — implied by card edge -->
+
+  <!-- Window frame — outer -->
+  <rect x="72" y="96" width="256" height="224" rx="8"
+    fill="#1a1a1a" stroke="#1a1a1a" stroke-width="3"/>
+
+  <!-- Window glass — interior view -->
+  <rect x="84" y="108" width="232" height="200" rx="4"
+    fill="#fdf6ee"/>
+
+  <!-- Window cross divider — wood mullion -->
+  <rect x="196" y="108" width="8" height="200" fill="#1a1a1a"/>
+  <rect x="84" y="204" width="232" height="8" fill="#1a1a1a"/>
+
+  <!-- Window sill — bottom ledge -->
+  <rect x="60" y="316" width="280" height="16" rx="4"
+    fill="#7a5c40" stroke="#1a1a1a" stroke-width="2.2"/>
+
+  <!-- Inside: small café table — lower center pane, warm wood -->
+  <rect x="162" y="236" width="76" height="60" rx="4"
+    fill="#c49a6c" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Table leg suggestion — two thin lines at bottom -->
+  <line x1="174" y1="296" x2="172" y2="310" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/>
+  <line x1="226" y1="296" x2="228" y2="310" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- Coffee cup on table — simple side profile -->
+  <!-- Cup body -->
+  <rect x="188" y="244" width="24" height="22" rx="3"
+    fill="#f5ede2" stroke="#1a1a1a" stroke-width="1.8"/>
+  <!-- Cup handle -->
+  <path d="M 212 249 Q 222 249 222 255 Q 222 261 212 261"
+    fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Coffee surface -->
+  <rect x="189" y="244" width="22" height="6" rx="2"
+    fill="#7a4f28"/>
+  <!-- Steam — one gentle wisp -->
+  <path d="M 200 242 Q 194 232, 200 222 Q 206 212, 200 202"
+    fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Inside: potted plant on left side of sill, upper left pane area -->
+  <!-- Pot -->
+  <path d="M 104 290 L 110 308 L 136 308 L 142 290 Z"
+    fill="#c49a6c" stroke="#1a1a1a" stroke-width="1.8"/>
+  <!-- Pot rim -->
+  <rect x="102" y="286" width="42" height="8" rx="3"
+    fill="#a07848" stroke="#1a1a1a" stroke-width="1.6"/>
+  <!-- Plant stem -->
+  <line x1="123" y1="286" x2="123" y2="260" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Leaves -->
+  <path d="M 123 272 Q 104 258, 100 240 Q 116 244, 123 272 Z"
+    fill="#5a9e6a" stroke="#1a1a1a" stroke-width="1.6"/>
+  <path d="M 123 264 Q 142 250, 148 232 Q 132 238, 123 264 Z"
+    fill="#5a9e6a" stroke="#1a1a1a" stroke-width="1.6"/>
+  <path d="M 123 256 Q 118 234, 120 212 Q 134 222, 123 256 Z"
+    fill="#5a9e6a" stroke="#1a1a1a" stroke-width="1.6"/>
+
+  <!-- Warm light glow — subtle warm tint inside the upper right pane -->
+  <rect x="205" y="112" width="108" height="90" rx="2"
+    fill="#fff8e8" opacity="0.4"/>
+
+  <!-- "pai" wordmark — small lowercase italic, bottom center -->
+  <text x="200" y="490"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="17" font-style="italic"
+    fill="#1a1a1a" text-anchor="middle"
+    letter-spacing="2" opacity="0.45">pai</text>
+
+</svg>

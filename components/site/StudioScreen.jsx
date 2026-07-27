@@ -1,13 +1,11 @@
 import { Heading } from '@/components/typography/Heading';
 import { MonoText } from '@/components/typography/MonoText';
 import { PolaroidCard } from '@/components/scrapbook/PolaroidCard';
-import { swatch } from '@/lib/siteData';
 
 const TEAM = [
-  { name: 'rowan vale', role: 'founder · design', tint: '#d8d3ea' },
-  { name: 'imogen park', role: 'design · type', tint: '#cfe3d0' },
-  { name: 'theo à beckett', role: 'engineering', tint: '#f0dcc4' },
-  { name: 'sana rao', role: 'interior dept.', tint: '#f3d9d2' },
+  { name: 'aizen chung', role: 'founder · project manager', tint: '#d8d3ea', email: 'aizen@sondrdesigns.com' },
+  { name: 'toshio nagai', role: 'CTO', tint: '#d4e4ee', email: 'toshi@sondrdesigns.com' },
+  { name: 'joseph kim', role: 'head of design', tint: '#f0dcc4', email: 'joseph@sondrdesigns.com' },
 ];
 
 const ETHOS = [
@@ -18,11 +16,11 @@ const ETHOS = [
 
 export function StudioScreen() {
   return (
-    <section style={{ padding: '58px 80px 110px' }}>
+    <section className="screen-section" style={{ padding: '58px 80px 110px' }}>
       <div style={{ maxWidth: 760 }}>
         <Heading level="title">the studio</Heading>
         <MonoText style={{ marginTop: 24, lineHeight: 1.85, maxWidth: 620 }}>
-          sondr is a small studio - small on purpose. a handful of people who each leave a fingerprint on the work. we sit close, share drafts on paper, and argue about kerning like it matters. it does.
+          sondr is a small studio — small on purpose. three people based in honolulu, each leaving a fingerprint on the work. we share drafts, argue about kerning, and build things that last. the small part is intentional.
         </MonoText>
       </div>
 
@@ -34,10 +32,13 @@ export function StudioScreen() {
             )}
             <PolaroidCard
               width={240}
-              tilt={[-3, 2, -2, 3][index % 4]}
+              tilt={[-3, 2, -2][index % 3]}
               assetBase="/"
-              src={swatch(member.tint)}
+              src="/assets/profile-placeholder.svg"
+              tint={member.tint}
               caption={member.name}
+              email={member.email}
+              comingSoon
             />
             <MonoText muted size="small" style={{ textAlign: 'center', marginTop: 10 }}>{member.role}</MonoText>
           </div>
