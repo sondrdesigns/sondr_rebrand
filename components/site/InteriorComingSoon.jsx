@@ -26,8 +26,6 @@ export function InteriorComingSoon() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          backgroundImage: 'radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size))',
-          backgroundSize: 'var(--grid-pitch) var(--grid-pitch)',
         }}
       >
         {!mobile && (
