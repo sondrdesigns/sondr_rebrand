@@ -39,7 +39,6 @@ export function MemberForm({ initialData, isNew }) {
     role: initialData?.role || '',
     email: initialData?.email || '',
     bio: initialData?.bio || '',
-    pronouns: initialData?.pronouns || '',
     portfolioUrl: initialData?.portfolioUrl || '',
   });
 
@@ -138,18 +137,6 @@ export function MemberForm({ initialData, isNew }) {
           <datalist id="role-suggestions">
             {ROLE_SUGGESTIONS.map(r => <option key={r} value={r} />)}
           </datalist>
-        </div>
-
-        {/* Pronouns */}
-        <div>
-          <label style={labelStyle}>Pronouns</label>
-          <input
-            type="text"
-            value={form.pronouns}
-            onChange={e => set('pronouns', e.target.value)}
-            placeholder="e.g. she/her"
-            style={inputStyle}
-          />
         </div>
 
         {/* Email */}
