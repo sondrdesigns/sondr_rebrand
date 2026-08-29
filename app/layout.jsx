@@ -1,5 +1,4 @@
 import './globals.css';
-import { SiteFrame } from '@/components/site/SiteFrame';
 
 const SITE_URL = 'https://sondrdesigns.com';
 
@@ -106,7 +105,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <SiteFrame>{children}</SiteFrame>
+        {children}
       </body>
     </html>
   );

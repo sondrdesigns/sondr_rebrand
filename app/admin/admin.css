@@ -1,0 +1,17 @@
+/*
+  Admin shell overrides
+  Helvetica replaces Intel One Mono for all --font-mono usages within .admin-env.
+  --ikb (International Klein Blue, rgb 0 47 167) is the accent token throughout.
+*/
+
+.admin-env {
+  --font-mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --ikb: rgb(0, 47, 167);
+  --tape-blue: var(--ikb);
+}
+
+/* Tighter tracking for Helvetica labels — mono had 0.18em, Helvetica reads better at 0.12em */
+.admin-env [style*="letterSpacing: '0.18em'"],
+.admin-env [style*='letter-spacing: 0.18em'] {
+  letter-spacing: 0.12em;
+}
