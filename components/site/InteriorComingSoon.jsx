@@ -40,14 +40,16 @@ export function InteriorComingSoon() {
                 right: 90,
                 transform: 'rotate(-5deg)',
                 filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.35))',
+                zIndex: 0,
               }}
             />
-            <StickyNote tilt={5} size={190} style={{ position: 'absolute', top: 80, right: 110 }}>
+            <StickyNote tilt={5} size={190} style={{ position: 'absolute', top: 80, right: 110, zIndex: 0 }}>
               something careful is being made here.
             </StickyNote>
           </>
         )}
 
+        <div style={{ position: 'relative', zIndex: 1 }}>
         <MonoText muted style={{ marginBottom: 20, letterSpacing: '.2em' }}>
           interior dept.
         </MonoText>
@@ -93,6 +95,7 @@ export function InteriorComingSoon() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>

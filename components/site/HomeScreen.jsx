@@ -130,7 +130,7 @@ function FeaturedWorks() {
         <div style={{ padding: mobile ? '0 24px' : '0 70px', marginBottom: 34, position: 'relative' }}>
           <img src="/assets/tape-blue.png" alt="" style={{ position: 'absolute', width: mobile ? 160 : 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
           <Heading level="title" style={{ position: 'relative' }}>featured works</Heading>
-          <MonoText muted style={{ marginTop: 12, maxWidth: 520 }}>
+          <MonoText muted style={{ marginTop: 12, maxWidth: 520, position: 'relative' }}>
             {mobile
               ? 'swipe sideways to flip through the projects. tap a photo to read the back.'
               : 'keep scrolling - the works run sideways, like flipping through a notebook. hover a photo to read the back.'}
