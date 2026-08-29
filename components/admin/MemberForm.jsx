@@ -64,14 +64,15 @@ export function MemberForm({ initialData, isNew }) {
           body: JSON.stringify({ ...form, id: initialData.id }),
         });
       }
+      if (res.status === 401) { router.push('/admin/login'); return; }
       if (!res.ok) throw new Error('Save failed');
       const data = await res.json();
       setSaveState('saved');
-      setTimeout(() => setSaveState('idle'), 2000);
       if (isNew) {
-        router.replace(`/admin/members/${data.id}`);
+        router.push('/admin/members');
       } else {
         router.refresh();
+        setTimeout(() => setSaveState('idle'), 2000);
       }
     } catch {
       setSaveState('error');
