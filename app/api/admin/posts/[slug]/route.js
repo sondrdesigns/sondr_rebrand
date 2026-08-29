@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getPost, savePost, deletePost } from '@/lib/blog';
+import { requireAuth } from '@/lib/auth';
 
 export async function GET(request, { params }) {
+  const authErr = await requireAuth(request);
+  if (authErr) return authErr;
   try {
     const post = await getPost(params.slug);
     return NextResponse.json(post);
@@ -11,6 +14,8 @@ export async function GET(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
+  const authErr = await requireAuth(request);
+  if (authErr) return authErr;
   const { frontmatter, content } = await request.json();
   const fm = { ...frontmatter, updatedAt: new Date().toISOString() };
   await savePost(params.slug, fm, content || '');
@@ -18,6 +23,8 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const authErr = await requireAuth(request);
+  if (authErr) return authErr;
   try {
     await deletePost(params.slug);
     return NextResponse.json({ ok: true });

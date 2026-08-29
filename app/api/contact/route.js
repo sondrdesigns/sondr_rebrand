@@ -5,7 +5,6 @@ const MAX_NAME = 100;
 const MAX_EMAIL = 254;
 const MAX_PROJECT = 5000;
 
-// Simple in-memory rate limiter: max 3 submissions per IP per 60 seconds.
 const rateLimitStore = new Map();
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 3;
@@ -13,15 +12,12 @@ const MAX_REQUESTS = 3;
 function isRateLimited(ip) {
   const now = Date.now();
   const entry = rateLimitStore.get(ip) ?? { count: 0, resetAt: now + WINDOW_MS };
-
   if (now > entry.resetAt) {
     entry.count = 0;
     entry.resetAt = now + WINDOW_MS;
   }
-
   entry.count += 1;
   rateLimitStore.set(ip, entry);
-
   return entry.count > MAX_REQUESTS;
 }
 
@@ -52,6 +48,9 @@ export async function POST(req) {
     return NextResponse.json({ error: 'please enter a valid email address.' }, { status: 400 });
   }
 
+  // Strip CR/LF from name to prevent header injection via subject line
+  const safeName = name.replace(/[\r\n]/g, ' ').trim();
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'email service not configured.' }, { status: 503 });
@@ -67,8 +66,8 @@ export async function POST(req) {
       from: 'website@sondrdesigns.com',
       to: 'studio@sondrdesigns.com',
       reply_to: email,
-      subject: `new message from ${name}`,
-      text: `name: ${name}\nemail: ${email}\n\n${project}`,
+      subject: `new message from ${safeName}`,
+      text: `name: ${safeName}\nemail: ${email}\n\n${project}`,
     }),
   });
 

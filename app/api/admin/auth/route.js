@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
+import { createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import { generateSessionToken, COOKIE_NAME } from '@/lib/auth';
 
 export async function POST(request) {
   const { password } = await request.json();
   const expected = process.env.ADMIN_PASSWORD;
-  // timing-safe compare
-  if (!password || !expected || password.length !== expected.length ||
-      !password.split('').every((c, i) => c === expected[i])) {
+  if (!password || typeof password !== 'string' || !expected) {
+    return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
+  }
+  // Compare HMACs (always 32 bytes) — avoids both timing and length oracles
+  const salt = randomBytes(32);
+  const h = (s) => createHmac('sha256', salt).update(s).digest();
+  if (!timingSafeEqual(h(password), h(expected))) {
     return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
   }
   const token = await generateSessionToken();
@@ -15,7 +20,7 @@ export async function POST(request) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 7,
     path: '/',
   });
   return res;
