@@ -2,42 +2,177 @@
 
 import React from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+// R3F lounge is client-only + WebGL — dynamic import keeps it out of SSR and
+// out of the initial bundle for other routes.
+var Lounge = dynamic(
+  function () { return import('./interior/Lounge').then(function (m) { return m.Lounge; }); },
+  { ssr: false, loading: function () { return React.createElement('div', { className: 'int-loading' }, 'entering the room…'); } }
+);
+
+function supportsWebGL() {
+  if (typeof window === 'undefined') return false;
+  try {
+    var c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl'));
+  } catch (e) { return false; }
+}
 // InteriorScreen — one white room, black furniture, one warm lamp.
 // 3/4 isometric convention: DX=-22, DY=-10 (depth goes upper-left)
 // Front face: #1c1c1c | Left face (lamp-lit): #c4a050-#b09040 | Top face: #dedad0
 
+// Each item is a full spec sheet — dims in mm, materials, year, inspiration copy,
+// ordering block. `bp` maps to which blueprint SVG to render on the catalog tile.
 var CATALOG_DATA = {
   seating: {
     label: 'seating',
     items: [
-      { name: 'mill sofa',       price: '£1,840', status: 'made to order', desc: 'three-seater in natural ash and linen. designed for staying.' },
-      { name: 'margin armchair', price: '£760',   status: 'in stock',      desc: 'a reading chair. upholstered in wool. sits low, stays a long time.' },
-      { name: 'note stool',      price: '£240',   status: 'in stock',      desc: 'solid ash, hand-oiled. stacks. lives anywhere.' },
-      { name: 'draft bench',     price: '£560',   status: 'made to order', desc: 'a long bench in oak. dining, hallway, or the foot of a bed.' },
+      {
+        id: 'mill-sofa', name: 'mill sofa', ref: 'S-01', bp: 'sofa',
+        price: '£1,840', status: 'made to order',
+        desc: 'three-seater in natural ash and linen. designed for staying.',
+        dims: { w: 2200, d: 900, h: 780, unit: 'mm' },
+        materials: ['natural ash frame', 'linen (undyed)', 'wool wadding'],
+        year: '2024', edition: 'open',
+        inspiration: 'a mill in west yorkshire — the linen weft coming off the loom, the ash beams overhead. the seat is meant to feel like the plank bench beside the loom, only kinder.',
+        order: '6–8 weeks from order. sample linen sent on request.',
+      },
+      {
+        id: 'margin-armchair', name: 'margin armchair', ref: 'S-02', bp: 'armchair',
+        price: '£760', status: 'in stock',
+        desc: 'a reading chair. upholstered in wool. sits low, stays a long time.',
+        dims: { w: 780, d: 820, h: 720, unit: 'mm' },
+        materials: ['oak frame', 'wool bouclé', 'natural rubber webbing'],
+        year: '2023', edition: 'open',
+        inspiration: 'the margin of a page — the empty column beside the text where you scribble the important things. the arms are the ruled edge; the seat is where the note goes.',
+        order: 'ships in 5 working days from the studio in leeds.',
+      },
+      {
+        id: 'note-stool', name: 'note stool', ref: 'S-03', bp: 'stool',
+        price: '£240', status: 'in stock',
+        desc: 'solid ash, hand-oiled. stacks. lives anywhere.',
+        dims: { w: 340, d: 340, h: 450, unit: 'mm' },
+        materials: ['solid ash', 'hand-rubbed hardwax oil'],
+        year: '2022', edition: 'open',
+        inspiration: 'a footnote — small, load-bearing, easy to overlook. three legs so it never wobbles.',
+        order: 'ships in 3 working days. stacks four high.',
+      },
+      {
+        id: 'draft-bench', name: 'draft bench', ref: 'S-04', bp: 'bench',
+        price: '£560', status: 'made to order',
+        desc: 'a long bench in oak. dining, hallway, or the foot of a bed.',
+        dims: { w: 1800, d: 320, h: 460, unit: 'mm' },
+        materials: ['solid european oak', 'blackened steel bracket'],
+        year: '2024', edition: 'open',
+        inspiration: 'the first draft — cut long, trimmed later. sized to seat three, but never fills up.',
+        order: '4–6 weeks. lengths can be adjusted in 100mm increments.',
+      },
     ],
   },
   tables: {
     label: 'tables',
     items: [
-      { name: 'field coffee table', price: '£620',   status: 'in stock',      desc: 'low, wide, clear-oiled ash. a surface to leave things on.' },
-      { name: 'margin desk',        price: '£980',   status: 'made to order', desc: 'a writing desk with a ruled edge and a paper drawer.' },
-      { name: 'dot side table',     price: '£310',   status: 'in stock',      desc: 'round, three-legged. next to a chair or a bed.' },
+      {
+        id: 'field-coffee-table', name: 'field coffee table', ref: 'T-01', bp: 'coffee-table',
+        price: '£620', status: 'in stock',
+        desc: 'low, wide, clear-oiled ash. a surface to leave things on.',
+        dims: { w: 1200, d: 700, h: 340, unit: 'mm' },
+        materials: ['solid ash', 'hardwax oil'],
+        year: '2023', edition: 'open',
+        inspiration: 'a field of type — the coffee table is the paragraph you drop things on top of. wide enough for books to spread.',
+        order: 'ships in 5 working days.',
+      },
+      {
+        id: 'margin-desk', name: 'margin desk', ref: 'T-02', bp: 'desk',
+        price: '£980', status: 'made to order',
+        desc: 'a writing desk with a ruled edge and a paper drawer.',
+        dims: { w: 1400, d: 620, h: 740, unit: 'mm' },
+        materials: ['oak top', 'blackened steel frame', 'linen drawer lining'],
+        year: '2024', edition: 'open',
+        inspiration: 'the ruled edge on graph paper — a line where the writing starts. drawer sized for a4.',
+        order: '4–6 weeks. cable pass-through on request.',
+      },
+      {
+        id: 'dot-side-table', name: 'dot side table', ref: 'T-03', bp: 'side-table',
+        price: '£310', status: 'in stock',
+        desc: 'round, three-legged. next to a chair or a bed.',
+        dims: { d: 380, h: 520, unit: 'mm' },
+        materials: ['solid ash', 'brass ferrule'],
+        year: '2022', edition: 'open',
+        inspiration: 'a full stop — punctuation in the room. small, round, done.',
+        order: 'ships in 3 working days.',
+      },
     ],
   },
   lighting: {
     label: 'lighting',
     items: [
-      { name: 'arc floor lamp', price: '£490', status: 'made to order', desc: 'cast-iron base, brass arm, linen shade. floods a corner.' },
-      { name: 'note lamp',      price: '£310', status: 'in stock',      desc: 'warm task lamp, dimmable, clips to any edge.' },
-      { name: 'rule pendant',   price: '£280', status: 'in stock',      desc: 'spun-steel shade, matte black. hangs from a fabric cord.' },
+      {
+        id: 'arc-floor-lamp', name: 'arc floor lamp', ref: 'L-01', bp: 'floor-lamp',
+        price: '£490', status: 'made to order',
+        desc: 'cast-iron base, brass arm, linen shade. floods a corner.',
+        dims: { d: 480, h: 1650, reach: 900, unit: 'mm' },
+        materials: ['cast-iron base', 'brass arm', 'linen shade'],
+        year: '2024', edition: 'open',
+        inspiration: 'a reading lamp for a reading chair. the arc is drawn from a compass — a single sweep from the base to the page.',
+        order: '4 weeks. supplied with e27 warm-white LED (2700k).',
+      },
+      {
+        id: 'note-lamp', name: 'note lamp', ref: 'L-02', bp: 'note-lamp',
+        price: '£310', status: 'in stock',
+        desc: 'warm task lamp, dimmable, clips to any edge.',
+        dims: { d: 180, h: 380, unit: 'mm' },
+        materials: ['spun aluminium head', 'steel clamp', 'fabric flex'],
+        year: '2023', edition: 'open',
+        inspiration: 'a marginal note — clipped to the edge of a desk, a shelf, a bedhead. always where the light needs to go next.',
+        order: 'ships in 3 days. dimmer built into cord.',
+      },
+      {
+        id: 'rule-pendant', name: 'rule pendant', ref: 'L-03', bp: 'pendant',
+        price: '£280', status: 'in stock',
+        desc: 'spun-steel shade, matte black. hangs from a fabric cord.',
+        dims: { d: 300, h: 180, cord: 2000, unit: 'mm' },
+        materials: ['spun steel, matte black', 'braided fabric flex', 'ceramic e27'],
+        year: '2022', edition: 'open',
+        inspiration: 'a horizontal rule — a line drawn across the room at head-height. everything below is a paragraph.',
+        order: 'ships in 3 days. cord length adjustable on install.',
+      },
     ],
   },
   storage: {
     label: 'storage',
     items: [
-      { name: 'field bookcase',   price: '£860',   status: 'made to order', desc: 'open shelving in ash, 5 shelves. holds books and everything else.' },
-      { name: 'margin sideboard', price: '£1,200', status: 'made to order', desc: 'solid oak, three drawers, two doors. a long, quiet piece.' },
-      { name: 'dot shelf',        price: '£420',   status: 'made to order', desc: 'a pegboard shelf on a 28mm grid. rearrange endlessly.' },
+      {
+        id: 'field-bookcase', name: 'field bookcase', ref: 'X-01', bp: 'bookshelf',
+        price: '£860', status: 'made to order',
+        desc: 'open shelving in ash, 5 shelves. holds books and everything else.',
+        dims: { w: 900, d: 320, h: 1800, unit: 'mm' },
+        materials: ['solid ash', 'hardwax oil', 'blackened steel wall bracket'],
+        year: '2024', edition: 'open',
+        inspiration: 'a field of shelves. no doors, no glass — just the spines showing. sized to a4 lever-arch.',
+        order: '5–7 weeks. wall-fixing kit included.',
+      },
+      {
+        id: 'margin-sideboard', name: 'margin sideboard', ref: 'X-02', bp: 'sideboard',
+        price: '£1,200', status: 'made to order',
+        desc: 'solid oak, three drawers, two doors. a long, quiet piece.',
+        dims: { w: 1800, d: 460, h: 780, unit: 'mm' },
+        materials: ['solid european oak', 'brass handle', 'linen-lined drawers'],
+        year: '2024', edition: 'open',
+        inspiration: 'the margin note grown up — long, patient, waiting to be opened. drawers on the left, doors on the right.',
+        order: '6–8 weeks. sample oak sent on request.',
+      },
+      {
+        id: 'dot-shelf', name: 'dot shelf', ref: 'X-03', bp: 'dot-shelf',
+        price: '£420', status: 'made to order',
+        desc: 'a pegboard shelf on a 28mm grid. rearrange endlessly.',
+        dims: { w: 900, d: 240, h: 900, pitch: 28, unit: 'mm' },
+        materials: ['birch ply, oiled', 'oak pegs', 'brass locators'],
+        year: '2023', edition: 'open',
+        inspiration: 'graph paper on the wall. rearrange the shelves whenever the room changes its mind.',
+        order: '4 weeks. supplied with 12 pegs and 4 shelves.',
+      },
     ],
   },
 };
@@ -393,6 +528,231 @@ var SVG_COMPONENTS = {
   'bookshelf':    BookshelfSVG,
 };
 
+// ─── Blueprint line drawings ─────────────────────────────────────────────────
+// Stroke-only elevations, drawn in "currentColor" so the parent tile controls
+// the ink (pale cyan on blueprint blue). Dashed construction lines and
+// dimension callouts reinforce the deconstructed / architectural feel.
+
+function BpSofa() {
+  return (
+    <svg viewBox="0 0 220 160" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="60" width="180" height="70" />
+      <rect x="20" y="30" width="180" height="30" />
+      <rect x="20" y="30" width="18" height="100" />
+      <rect x="182" y="30" width="18" height="100" />
+      <line x1="80" y1="60" x2="80" y2="130" strokeDasharray="2 3" opacity="0.6" />
+      <line x1="140" y1="60" x2="140" y2="130" strokeDasharray="2 3" opacity="0.6" />
+      <line x1="34" y1="130" x2="34" y2="146" />
+      <line x1="186" y1="130" x2="186" y2="146" />
+      <line x1="10" y1="20" x2="10" y2="140" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="8" y1="20" x2="12" y2="20" />
+      <line x1="8" y1="140" x2="12" y2="140" />
+    </svg>
+  );
+}
+
+function BpArmchair() {
+  return (
+    <svg viewBox="0 0 160 170" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="30" y="80" width="100" height="55" />
+      <rect x="30" y="35" width="100" height="45" />
+      <rect x="30" y="45" width="16" height="90" />
+      <rect x="114" y="45" width="16" height="90" />
+      <line x1="40" y1="135" x2="40" y2="150" />
+      <line x1="120" y1="135" x2="120" y2="150" />
+      <line x1="20" y1="30" x2="20" y2="150" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="18" y1="30" x2="22" y2="30" />
+      <line x1="18" y1="150" x2="22" y2="150" />
+    </svg>
+  );
+}
+
+function BpStool() {
+  return (
+    <svg viewBox="0 0 140 170" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <ellipse cx="70" cy="50" rx="46" ry="10" />
+      <line x1="30" y1="52" x2="26" y2="150" />
+      <line x1="110" y1="52" x2="114" y2="150" />
+      <line x1="70" y1="60" x2="70" y2="152" strokeDasharray="2 3" opacity="0.7" />
+      <line x1="20" y1="152" x2="120" y2="152" />
+      <line x1="24" y1="152" x2="18" y2="158" />
+      <line x1="116" y1="152" x2="122" y2="158" />
+    </svg>
+  );
+}
+
+function BpBench() {
+  return (
+    <svg viewBox="0 0 240 130" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="40" width="200" height="18" />
+      <rect x="30" y="58" width="8" height="55" />
+      <rect x="202" y="58" width="8" height="55" />
+      <line x1="20" y1="30" x2="220" y2="30" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="20" y1="26" x2="20" y2="34" />
+      <line x1="220" y1="26" x2="220" y2="34" />
+      <line x1="34" y1="113" x2="34" y2="122" />
+      <line x1="206" y1="113" x2="206" y2="122" />
+    </svg>
+  );
+}
+
+function BpCoffeeTable() {
+  return (
+    <svg viewBox="0 0 240 130" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="40" width="200" height="12" />
+      <line x1="20" y1="60" x2="220" y2="60" opacity="0.55" />
+      <rect x="30" y="52" width="7" height="60" />
+      <rect x="203" y="52" width="7" height="60" />
+      <line x1="37" y1="90" x2="203" y2="90" strokeDasharray="2 3" opacity="0.6" />
+      <line x1="20" y1="30" x2="220" y2="30" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="20" y1="26" x2="20" y2="34" />
+      <line x1="220" y1="26" x2="220" y2="34" />
+    </svg>
+  );
+}
+
+function BpDesk() {
+  return (
+    <svg viewBox="0 0 240 160" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="40" width="200" height="10" />
+      <rect x="20" y="50" width="200" height="24" />
+      <line x1="30" y1="60" x2="80" y2="60" opacity="0.6" />
+      <circle cx="55" cy="62" r="1.5" fill="currentColor" />
+      <line x1="30" y1="74" x2="30" y2="140" />
+      <line x1="210" y1="74" x2="210" y2="140" />
+      <line x1="20" y1="30" x2="220" y2="30" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="20" y1="26" x2="20" y2="34" />
+      <line x1="220" y1="26" x2="220" y2="34" />
+    </svg>
+  );
+}
+
+function BpSideTable() {
+  return (
+    <svg viewBox="0 0 140 170" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <ellipse cx="70" cy="40" rx="42" ry="8" />
+      <line x1="70" y1="48" x2="70" y2="140" />
+      <ellipse cx="70" cy="146" rx="34" ry="6" />
+      <line x1="30" y1="146" x2="26" y2="156" strokeDasharray="2 3" opacity="0.5" />
+      <line x1="110" y1="146" x2="114" y2="156" strokeDasharray="2 3" opacity="0.5" />
+      <line x1="20" y1="30" x2="20" y2="152" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="18" y1="30" x2="22" y2="30" />
+      <line x1="18" y1="152" x2="22" y2="152" />
+    </svg>
+  );
+}
+
+function BpFloorLamp() {
+  return (
+    <svg viewBox="0 0 180 240" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <path d="M50,210 Q40,110 130,40" />
+      <line x1="42" y1="210" x2="58" y2="210" />
+      <ellipse cx="60" cy="212" rx="30" ry="6" />
+      <path d="M110,32 L150,32 L162,64 L98,64 Z" />
+      <line x1="110" y1="32" x2="98" y2="64" opacity="0.5" />
+      <line x1="150" y1="32" x2="162" y2="64" opacity="0.5" />
+      <line x1="130" y1="16" x2="130" y2="24" strokeDasharray="1 2" opacity="0.6" />
+      <line x1="122" y1="20" x2="138" y2="20" strokeDasharray="1 2" opacity="0.6" />
+    </svg>
+  );
+}
+
+function BpNoteLamp() {
+  return (
+    <svg viewBox="0 0 160 190" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="150" width="40" height="14" />
+      <rect x="26" y="140" width="28" height="10" />
+      <line x1="40" y1="140" x2="80" y2="70" />
+      <line x1="80" y1="70" x2="120" y2="50" />
+      <path d="M110,30 L138,30 L146,60 L106,64 Z" />
+      <line x1="20" y1="180" x2="60" y2="180" strokeDasharray="2 3" opacity="0.5" />
+    </svg>
+  );
+}
+
+function BpPendant() {
+  return (
+    <svg viewBox="0 0 140 200" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <line x1="70" y1="10" x2="70" y2="120" />
+      <path d="M32,120 L108,120 L92,160 L48,160 Z" />
+      <ellipse cx="70" cy="160" rx="22" ry="4" />
+      <line x1="60" y1="14" x2="80" y2="14" />
+    </svg>
+  );
+}
+
+function BpBookshelf() {
+  return (
+    <svg viewBox="0 0 180 240" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="20" width="140" height="200" />
+      <line x1="20" y1="60"  x2="160" y2="60" />
+      <line x1="20" y1="100" x2="160" y2="100" />
+      <line x1="20" y1="140" x2="160" y2="140" />
+      <line x1="20" y1="180" x2="160" y2="180" />
+      <line x1="30" y1="26" x2="30" y2="54" opacity="0.55" />
+      <line x1="42" y1="26" x2="42" y2="54" opacity="0.55" />
+      <line x1="54" y1="26" x2="54" y2="54" opacity="0.55" />
+      <line x1="30" y1="66" x2="30" y2="94" opacity="0.55" />
+      <line x1="46" y1="66" x2="46" y2="94" opacity="0.55" />
+      <line x1="10" y1="20" x2="10" y2="220" strokeDasharray="1 4" opacity="0.5" />
+      <line x1="8" y1="20" x2="12" y2="20" />
+      <line x1="8" y1="220" x2="12" y2="220" />
+    </svg>
+  );
+}
+
+function BpSideboard() {
+  return (
+    <svg viewBox="0 0 240 150" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="30" width="200" height="90" />
+      <line x1="20" y1="60" x2="130" y2="60" />
+      <line x1="20" y1="90" x2="130" y2="90" />
+      <circle cx="75" cy="45" r="2" fill="currentColor" />
+      <circle cx="75" cy="75" r="2" fill="currentColor" />
+      <circle cx="75" cy="105" r="2" fill="currentColor" />
+      <line x1="175" y1="30" x2="175" y2="120" />
+      <circle cx="170" cy="75" r="2" fill="currentColor" />
+      <circle cx="180" cy="75" r="2" fill="currentColor" />
+      <line x1="30" y1="120" x2="30" y2="135" />
+      <line x1="210" y1="120" x2="210" y2="135" />
+    </svg>
+  );
+}
+
+function BpDotShelf() {
+  var dots = [];
+  for (var r = 0; r < 8; r++) {
+    for (var c = 0; c < 8; c++) {
+      dots.push(<circle key={r + '-' + c} cx={30 + c * 20} cy={20 + r * 20} r="1.2" fill="currentColor" opacity="0.65" />);
+    }
+  }
+  return (
+    <svg viewBox="0 0 220 200" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="20" y="10" width="180" height="170" />
+      {dots}
+      <line x1="30" y1="60" x2="140" y2="60" strokeWidth="2" />
+      <line x1="70" y1="120" x2="180" y2="120" strokeWidth="2" />
+      <line x1="30" y1="160" x2="110" y2="160" strokeWidth="2" />
+    </svg>
+  );
+}
+
+var BLUEPRINT_SVGS = {
+  'sofa':         BpSofa,
+  'armchair':     BpArmchair,
+  'stool':        BpStool,
+  'bench':        BpBench,
+  'coffee-table': BpCoffeeTable,
+  'desk':         BpDesk,
+  'side-table':   BpSideTable,
+  'floor-lamp':   BpFloorLamp,
+  'note-lamp':    BpNoteLamp,
+  'pendant':      BpPendant,
+  'bookshelf':    BpBookshelf,
+  'sideboard':    BpSideboard,
+  'dot-shelf':    BpDotShelf,
+};
+
 // ─── CSS ─────────────────────────────────────────────────────────────────────
 
 var ROOM_CSS = [
@@ -452,21 +812,101 @@ var ROOM_CSS = [
 
   '@keyframes int-fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}',
 
-  /* catalog */
-  '.int-cat{animation:int-fadein .26s ease;position:fixed;inset:0;z-index:205;background:#f2f0eb;display:flex;flex-direction:column;overflow-y:auto;}',
-  '.int-cat-header{padding:40px 64px 26px;border-bottom:1px solid rgba(0,0,0,0.09);display:flex;align-items:baseline;gap:32px;}',
-  '.int-cat-back{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;color:rgba(0,0,0,0.35);background:none;border:none;cursor:pointer;padding:0;transition:color .14s;flex-shrink:0;}',
-  '.int-cat-back:hover{color:#111;}',
-  '.int-cat-title{font-family:var(--font-mono);font-size:30px;letter-spacing:.06em;color:#111;}',
-  '.int-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:rgba(0,0,0,0.07);margin:44px 64px 80px;border:1px solid rgba(0,0,0,0.07);}',
-  '.int-cat-item{background:#f2f0eb;padding:36px 32px;cursor:pointer;transition:background .15s;}',
-  '.int-cat-item:hover{background:#e8e5dc;}',
-  '.int-cat-item-name{font-family:var(--font-mono);font-size:20px;letter-spacing:.06em;color:#111;}',
-  '.int-cat-item-price{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;color:rgba(0,0,0,0.40);margin-top:8px;}',
-  '.int-cat-item-desc{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:rgba(0,0,0,0.48);line-height:1.75;margin-top:14px;}',
-  '.int-cat-item-status{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:rgb(0,81,255);margin-top:16px;}',
-  '.int-enquire-btn{margin-top:18px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:#111;background:transparent;border:1px solid rgba(0,0,0,0.26);padding:9px 22px;cursor:pointer;transition:border-color .15s,background .15s;}',
-  '.int-enquire-btn:hover{border-color:#111;background:rgba(0,0,0,0.04);}',
+  /* ── blueprint catalog ─────────────────────────────────────────── */
+  ':root{--bp-paper:#0e2a4a;--bp-paper-2:#0b2340;--bp-ink:#e6f1fa;--bp-ink-soft:rgba(230,241,250,0.55);--bp-ink-dim:rgba(230,241,250,0.30);--bp-stamp:#ff8a3a;--bp-pixel:"Silkscreen",monospace;--bp-crt:"VT323",monospace;}',
+
+  '.int-cat{animation:int-fadein .26s ease;position:fixed;inset:0;z-index:205;background:var(--bp-paper);color:var(--bp-ink);display:flex;flex-direction:column;overflow-y:auto;' +
+  'background-image:' +
+  'linear-gradient(rgba(230,241,250,0.06) 1px,transparent 1px),' +
+  'linear-gradient(90deg,rgba(230,241,250,0.06) 1px,transparent 1px),' +
+  'linear-gradient(rgba(230,241,250,0.10) 1px,transparent 1px),' +
+  'linear-gradient(90deg,rgba(230,241,250,0.10) 1px,transparent 1px);' +
+  'background-size:24px 24px,24px 24px,120px 120px,120px 120px;}',
+
+  '.int-cat-header{padding:34px 56px 22px;border-bottom:1px dashed rgba(230,241,250,0.22);display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap;}',
+  '.int-cat-back{font-family:var(--bp-pixel);font-size:11px;letter-spacing:.16em;color:var(--bp-ink-soft);background:none;border:1px solid rgba(230,241,250,0.28);padding:8px 14px;cursor:pointer;transition:color .14s,border-color .14s,background .14s;text-transform:uppercase;text-decoration:none;}',
+  '.int-cat-back:hover{color:var(--bp-ink);border-color:var(--bp-ink);background:rgba(230,241,250,0.05);}',
+  '.int-cat-title{font-family:var(--bp-pixel);font-size:26px;letter-spacing:.08em;color:var(--bp-ink);text-transform:uppercase;}',
+  '.int-cat-caption{margin-left:auto;font-family:var(--bp-crt);font-size:18px;color:var(--bp-ink-soft);letter-spacing:.06em;}',
+  '.int-cat-caption b{color:var(--bp-stamp);font-weight:normal;letter-spacing:.14em;}',
+
+  '.int-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px;padding:34px 56px 80px;}',
+
+  /* each item card = a blueprint sheet */
+  '.bp-tile{position:relative;background:var(--bp-paper-2);border:1px solid rgba(230,241,250,0.24);padding:22px 22px 68px;cursor:pointer;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;color:var(--bp-ink);}',
+  '.bp-tile::before{content:"";position:absolute;inset:0;background-image:' +
+  'linear-gradient(rgba(230,241,250,0.05) 1px,transparent 1px),' +
+  'linear-gradient(90deg,rgba(230,241,250,0.05) 1px,transparent 1px);' +
+  'background-size:16px 16px;pointer-events:none;}',
+  '.bp-tile:hover{transform:translateY(-3px);border-color:var(--bp-ink);box-shadow:0 14px 28px rgba(0,0,0,0.35),0 0 0 1px rgba(230,241,250,0.18) inset;}',
+  '.bp-tile:hover .bp-stamp{opacity:1;}',
+
+  /* corner registration ticks */
+  '.bp-tick{position:absolute;width:10px;height:10px;border:1px solid var(--bp-ink-soft);}',
+  '.bp-tick.tl{top:6px;left:6px;border-right:none;border-bottom:none;}',
+  '.bp-tick.tr{top:6px;right:6px;border-left:none;border-bottom:none;}',
+  '.bp-tick.bl{bottom:6px;left:6px;border-right:none;border-top:none;}',
+  '.bp-tick.br{bottom:6px;right:6px;border-left:none;border-top:none;}',
+
+  /* drawing area */
+  '.bp-draw{position:relative;height:180px;display:flex;align-items:center;justify-content:center;color:var(--bp-ink);}',
+  '.bp-draw svg{max-height:100%;max-width:100%;width:auto;height:auto;filter:drop-shadow(0 0 6px rgba(150,200,255,0.14));}',
+
+  /* callouts around drawing */
+  '.bp-callout{position:absolute;font-family:var(--bp-pixel);font-size:8px;letter-spacing:.14em;color:var(--bp-ink-soft);text-transform:uppercase;}',
+  '.bp-callout.n{top:4px;left:14px;}',
+  '.bp-callout.e{top:4px;right:14px;}',
+
+  /* title block bottom-right of tile (architectural convention) */
+  '.bp-title-block{position:absolute;left:22px;right:22px;bottom:18px;display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding-top:12px;border-top:1px dashed rgba(230,241,250,0.28);}',
+  '.bp-name{font-family:var(--bp-pixel);font-size:14px;letter-spacing:.08em;color:var(--bp-ink);text-transform:lowercase;grid-column:1 / span 2;}',
+  '.bp-meta{font-family:var(--bp-crt);font-size:15px;line-height:1;color:var(--bp-ink-soft);letter-spacing:.04em;}',
+  '.bp-meta b{color:var(--bp-ink);font-weight:normal;}',
+  '.bp-meta.right{text-align:right;}',
+
+  /* orange stamp badge — sondr designs mark */
+  '.bp-stamp{position:absolute;top:14px;right:14px;font-family:var(--bp-pixel);font-size:8px;letter-spacing:.14em;color:var(--bp-stamp);border:1px solid var(--bp-stamp);padding:4px 6px;text-transform:uppercase;opacity:0.55;transition:opacity .18s;}',
+
+  /* ── item detail page ─────────────────────────────────────────── */
+  '.int-item{animation:int-fadein .26s ease;position:fixed;inset:0;z-index:206;background:#f2f0eb;color:#111;overflow-y:auto;}',
+  '.int-item-header{position:sticky;top:0;z-index:2;background:#f2f0eb;padding:26px 56px 18px;border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:baseline;gap:20px;}',
+  '.int-item-back{font-family:var(--bp-pixel);font-size:11px;letter-spacing:.16em;color:rgba(0,0,0,0.55);background:none;border:1px solid rgba(0,0,0,0.22);padding:8px 14px;cursor:pointer;transition:color .14s,border-color .14s;text-transform:uppercase;}',
+  '.int-item-back:hover{color:#111;border-color:#111;}',
+  '.int-item-ref{font-family:var(--bp-crt);font-size:18px;color:rgba(0,0,0,0.45);letter-spacing:.04em;margin-left:auto;}',
+
+  '.int-item-body{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;padding:44px 56px 80px;max-width:1400px;}',
+  '@media (max-width:900px){.int-item-body{grid-template-columns:1fr;gap:32px;padding:28px;}}',
+
+  /* photo column */
+  '.int-item-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;}',
+  '.int-item-photo{aspect-ratio:4 / 5;background:linear-gradient(135deg,#e8e5dc 0%,#d8d4c8 100%);position:relative;overflow:hidden;border:1px solid rgba(0,0,0,0.06);}',
+  '.int-item-photo.wide{grid-column:1 / -1;aspect-ratio:8 / 5;}',
+  '.int-item-photo::after{content:"photo";position:absolute;bottom:12px;left:14px;font-family:var(--bp-pixel);font-size:8px;letter-spacing:.14em;color:rgba(0,0,0,0.32);text-transform:uppercase;}',
+  '.int-item-photo .ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.14);}',
+
+  /* copy column */
+  '.int-item-name{font-family:var(--bp-pixel);font-size:36px;letter-spacing:.05em;color:#111;text-transform:lowercase;line-height:1.1;}',
+  '.int-item-price{font-family:var(--font-mono);font-size:16px;letter-spacing:.08em;color:rgba(0,0,0,0.55);margin-top:14px;}',
+  '.int-item-status{display:inline-block;font-family:var(--bp-pixel);font-size:9px;letter-spacing:.18em;color:var(--bp-stamp);border:1px solid var(--bp-stamp);padding:5px 8px;margin-top:16px;text-transform:uppercase;}',
+  '.int-item-desc{font-family:var(--font-mono);font-size:14px;line-height:1.75;color:rgba(0,0,0,0.72);margin-top:26px;max-width:44ch;}',
+  '.int-item-h{font-family:var(--bp-pixel);font-size:10px;letter-spacing:.22em;color:rgba(0,0,0,0.45);text-transform:uppercase;margin:36px 0 10px;}',
+  '.int-item-inspiration{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:rgba(0,0,0,0.68);max-width:48ch;font-style:italic;}',
+  '.int-item-specs{display:grid;grid-template-columns:auto 1fr;column-gap:22px;row-gap:8px;font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.72);letter-spacing:.04em;}',
+  '.int-item-specs dt{color:rgba(0,0,0,0.42);}',
+  '.int-item-order{margin-top:32px;padding:22px 24px;border:1px solid rgba(0,0,0,0.14);background:rgba(255,255,255,0.4);}',
+  '.int-item-order p{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:rgba(0,0,0,0.7);margin:0 0 16px;}',
+  '.int-item-order-btn{font-family:var(--bp-pixel);font-size:11px;letter-spacing:.18em;color:#f2f0eb;background:#111;border:1px solid #111;padding:12px 22px;cursor:pointer;transition:background .15s,color .15s;text-transform:uppercase;}',
+  '.int-item-order-btn:hover{background:var(--bp-stamp);border-color:var(--bp-stamp);color:#111;}',
+
+  /* R3F lounge shell */
+  '.int-lounge{position:absolute;inset:0;background:#0e1518;}',
+  '.int-lounge canvas{display:block;width:100%!important;height:100%!important;}',
+  '.int-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0e1518;color:rgba(255,220,180,0.55);font-family:var(--font-mono);font-size:12px;letter-spacing:.24em;text-transform:lowercase;}',
+  '.int-hint{position:absolute;left:0;right:0;bottom:26px;text-align:center;font-family:var(--font-mono);font-size:10px;letter-spacing:.28em;color:rgba(255,220,180,0.32);pointer-events:none;text-transform:lowercase;animation:int-hint-in 1.4s ease .8s both;}',
+  '@keyframes int-hint-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}',
+  '.int-overlay-dark .int-exit-btn{color:rgba(255,220,180,0.42);}',
+  '.int-overlay-dark .int-exit-btn:hover{color:rgba(255,230,200,0.95);}',
+  '.int-overlay-dark{background:#0e1518;}',
 ].join('\n');
 
 // ─── Room view ────────────────────────────────────────────────────────────────
@@ -522,9 +962,41 @@ function RoomView({ onSelectPiece }) {
   );
 }
 
-// ─── Catalog view ─────────────────────────────────────────────────────────────
+// ─── Catalog view — blueprint sheets ─────────────────────────────────────────
 
-function CatalogView({ categoryId, onBack }) {
+function formatDims(d) {
+  if (!d) return '';
+  var parts = [];
+  if (d.w) parts.push(d.w);
+  if (d.d) parts.push(d.d);
+  if (d.h) parts.push(d.h);
+  return parts.join(' × ') + ' ' + (d.unit || 'mm');
+}
+
+function BlueprintTile({ item, onOpen }) {
+  var Bp = BLUEPRINT_SVGS[item.bp] || BLUEPRINT_SVGS.stool;
+  return (
+    <div className="bp-tile" onClick={function () { onOpen(item); }}>
+      <div className="bp-tick tl" />
+      <div className="bp-tick tr" />
+      <div className="bp-tick bl" />
+      <div className="bp-tick br" />
+      <div className="bp-stamp">sondr/des</div>
+      <div className="bp-draw">
+        <span className="bp-callout n">elev · 1:20</span>
+        <span className="bp-callout e">{item.ref}</span>
+        <Bp />
+      </div>
+      <div className="bp-title-block">
+        <div className="bp-name">{item.name}</div>
+        <div className="bp-meta">{formatDims(item.dims)}</div>
+        <div className="bp-meta right"><b>{item.price}</b></div>
+      </div>
+    </div>
+  );
+}
+
+function CatalogView({ categoryId, onBack, onSelectItem }) {
   var cat = CATALOG_DATA[categoryId];
   if (!cat) return null;
   return (
@@ -532,19 +1004,59 @@ function CatalogView({ categoryId, onBack }) {
       <div className="int-cat-header">
         <button className="int-cat-back" onClick={onBack}>← room</button>
         <span className="int-cat-title">{cat.label}</span>
+        <span className="int-cat-caption">sheet <b>{cat.label.slice(0, 3).toUpperCase()}</b> · rev.24 · sondr designs, leeds</span>
       </div>
       <div className="int-cat-grid">
-        {cat.items.map(function(item) {
-          return (
-            <div key={item.name} className="int-cat-item">
-              <div className="int-cat-item-name">{item.name}</div>
-              <div className="int-cat-item-price">{item.price}</div>
-              <div className="int-cat-item-desc">{item.desc}</div>
-              <div className="int-cat-item-status">{item.status}</div>
-              <button className="int-enquire-btn">enquire →</button>
-            </div>
-          );
+        {cat.items.map(function (item) {
+          return <BlueprintTile key={item.id} item={item} onOpen={onSelectItem} />;
         })}
+      </div>
+    </div>
+  );
+}
+
+// ─── Item detail view ───────────────────────────────────────────────────────
+
+function ItemView({ item, onBack }) {
+  return (
+    <div className="int-item">
+      <div className="int-item-header">
+        <button className="int-item-back" onClick={onBack}>← catalog</button>
+        <span className="int-item-ref">ref · {item.ref} · {item.year}</span>
+      </div>
+      <div className="int-item-body">
+        <div className="int-item-photos">
+          <div className="int-item-photo wide"><span className="ghost">image · 01</span></div>
+          <div className="int-item-photo"><span className="ghost">image · 02</span></div>
+          <div className="int-item-photo"><span className="ghost">image · 03</span></div>
+        </div>
+        <div>
+          <h1 className="int-item-name">{item.name}</h1>
+          <div className="int-item-price">{item.price}</div>
+          <div className="int-item-status">{item.status}</div>
+          <p className="int-item-desc">{item.desc}</p>
+
+          <div className="int-item-h">inspiration</div>
+          <p className="int-item-inspiration">{item.inspiration}</p>
+
+          <div className="int-item-h">materials</div>
+          <p className="int-item-inspiration" style={{ fontStyle: 'normal' }}>
+            {(item.materials || []).join(' · ')}
+          </p>
+
+          <div className="int-item-h">specification</div>
+          <dl className="int-item-specs">
+            <dt>dimensions</dt><dd>{formatDims(item.dims)}</dd>
+            <dt>edition</dt><dd>{item.edition}</dd>
+            <dt>year</dt><dd>{item.year}</dd>
+          </dl>
+
+          <div className="int-item-order">
+            <p><b>{item.order}</b></p>
+            <p>orders are made in the studio in leeds. we send fabric or timber samples on request. delivery in the uk is included; international freight quoted per piece.</p>
+            <button className="int-item-order-btn">enquire to order →</button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -557,17 +1069,64 @@ export function InteriorScreen() {
   var activeCat = catState[0];
   var setActiveCat = catState[1];
 
+  var itemState = React.useState(null);
+  var activeItem = itemState[0];
+  var setActiveItem = itemState[1];
+
+  var focusState = React.useState(null);
+  var focusedId = focusState[0];
+  var setFocusedId = focusState[1];
+
+  var webglState = React.useState(null); // null = not yet checked, true/false = decided
+  var webgl = webglState[0];
+  var setWebgl = webglState[1];
+
+  React.useEffect(function () {
+    setWebgl(supportsWebGL());
+  }, []);
+
+  // Camera lerps to the piece first; catalog opens after the shot settles.
+  function handleSelectPiece(piece) {
+    setFocusedId(piece.id);
+    var t = setTimeout(function () { setActiveCat(piece.category); }, 620);
+    return function () { clearTimeout(t); };
+  }
+
+  function handleCatalogBack() {
+    setActiveCat(null);
+    setFocusedId(null);
+  }
+
+  var useR3F = webgl === true;
+
   return (
-    <div className="int-overlay">
+    <div className={'int-overlay' + (useR3F ? ' int-overlay-dark' : '')}>
       <style>{ROOM_CSS}</style>
       <Link className="int-exit-btn" href="/">
         exit interior ×
       </Link>
-      <RoomView onSelectPiece={setActiveCat} />
+
+      {webgl === null ? null : useR3F ? (
+        <div className="int-lounge">
+          <Lounge onSelectPiece={handleSelectPiece} focusedId={focusedId} />
+          {!activeCat && <div className="int-hint">click a piece · move mouse to explore</div>}
+        </div>
+      ) : (
+        <RoomView onSelectPiece={setActiveCat} />
+      )}
+
       {activeCat && (
         <CatalogView
           categoryId={activeCat}
-          onBack={function() { setActiveCat(null); }}
+          onBack={handleCatalogBack}
+          onSelectItem={setActiveItem}
+        />
+      )}
+
+      {activeItem && (
+        <ItemView
+          item={activeItem}
+          onBack={function () { setActiveItem(null); }}
         />
       )}
     </div>

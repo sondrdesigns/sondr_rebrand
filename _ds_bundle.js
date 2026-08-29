@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"SondrDesignsDesignSystem_41b26a","components":[{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"Divider","sourcePath":"components/core/Divider.jsx"},{"name":"Field","sourcePath":"components/core/Field.jsx"},{"name":"NavItem","sourcePath":"components/navigation/NavItem.jsx"},{"name":"SondrIcon","sourcePath":"components/navigation/SondrIcon.jsx"},{"name":"DottedGrid","sourcePath":"components/scrapbook/DottedGrid.jsx"},{"name":"FlipPolaroid","sourcePath":"components/scrapbook/FlipPolaroid.jsx"},{"name":"PolaroidCard","sourcePath":"components/scrapbook/PolaroidCard.jsx"},{"name":"StickyNote","sourcePath":"components/scrapbook/StickyNote.jsx"},{"name":"Tape","sourcePath":"components/scrapbook/Tape.jsx"},{"name":"Heading","sourcePath":"components/typography/Heading.jsx"},{"name":"MonoText","sourcePath":"components/typography/MonoText.jsx"}],"sourceHashes":{"components/core/Button.jsx":"c0934b060bd1","components/core/Card.jsx":"38b798c01970","components/core/Divider.jsx":"0f13b562724f","components/core/Field.jsx":"5424b845268e","components/navigation/NavItem.jsx":"7c6dd66ae759","components/navigation/SondrIcon.jsx":"60d728f3adba","components/scrapbook/DottedGrid.jsx":"37f559f93490","components/scrapbook/FlipPolaroid.jsx":"13131828bbed","components/scrapbook/PolaroidCard.jsx":"88276b466dc7","components/scrapbook/StickyNote.jsx":"ec3b66c623c7","components/scrapbook/Tape.jsx":"2771b26318d7","components/typography/Heading.jsx":"6fab256c8d40","components/typography/MonoText.jsx":"d6bacf663276","ui_kits/sondr-site/BlogScreen.jsx":"c1cf723d854a","ui_kits/sondr-site/ContactScreen.jsx":"c9602e25e333","ui_kits/sondr-site/HomeScreen.jsx":"baf546c3e870","ui_kits/sondr-site/InteriorScreen.jsx":"7f9a59fe49ca","ui_kits/sondr-site/StudioScreen.jsx":"1390b821435a","ui_kits/sondr-site/WorksScreen.jsx":"4b294b3a7be0","ui_kits/sondr-site/data.js":"1490216ec4ff"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"SondrDesignsDesignSystem_41b26a","components":[{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"Divider","sourcePath":"components/core/Divider.jsx"},{"name":"Field","sourcePath":"components/core/Field.jsx"},{"name":"NavItem","sourcePath":"components/navigation/NavItem.jsx"},{"name":"SondrIcon","sourcePath":"components/navigation/SondrIcon.jsx"},{"name":"DottedGrid","sourcePath":"components/scrapbook/DottedGrid.jsx"},{"name":"FlipPolaroid","sourcePath":"components/scrapbook/FlipPolaroid.jsx"},{"name":"PolaroidCard","sourcePath":"components/scrapbook/PolaroidCard.jsx"},{"name":"StickyNote","sourcePath":"components/scrapbook/StickyNote.jsx"},{"name":"Tape","sourcePath":"components/scrapbook/Tape.jsx"},{"name":"Heading","sourcePath":"components/typography/Heading.jsx"},{"name":"MonoText","sourcePath":"components/typography/MonoText.jsx"}],"sourceHashes":{"components/core/Button.jsx":"c0934b060bd1","components/core/Card.jsx":"38b798c01970","components/core/Divider.jsx":"0f13b562724f","components/core/Field.jsx":"5424b845268e","components/navigation/NavItem.jsx":"7c6dd66ae759","components/navigation/SondrIcon.jsx":"60d728f3adba","components/scrapbook/DottedGrid.jsx":"37f559f93490","components/scrapbook/FlipPolaroid.jsx":"13131828bbed","components/scrapbook/PolaroidCard.jsx":"88276b466dc7","components/scrapbook/StickyNote.jsx":"ec3b66c623c7","components/scrapbook/Tape.jsx":"2771b26318d7","components/typography/Heading.jsx":"6fab256c8d40","components/typography/MonoText.jsx":"d6bacf663276","ui_kits/sondr-site/BlogScreen.jsx":"3470ccc3f1c6","ui_kits/sondr-site/ContactScreen.jsx":"c9602e25e333","ui_kits/sondr-site/HomeScreen.jsx":"c3b0a7f8e2b5","ui_kits/sondr-site/InteriorScreen.jsx":"7f9a59fe49ca","ui_kits/sondr-site/StudioScreen.jsx":"1390b821435a","ui_kits/sondr-site/WorksScreen.jsx":"4b294b3a7be0","ui_kits/sondr-site/data.js":"1490216ec4ff"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -834,96 +834,85 @@ Object.assign(__ds_scope, { MonoText });
 // ui_kits/sondr-site/BlogScreen.jsx
 try { (() => {
 /* global React */
-// BlogScreen — an honest "in progress" / coming-soon notebook page.
-const {
-  Heading,
-  MonoText,
-  Button,
-  StickyNote,
-  Tape
-} = window.SondrDesignsDesignSystem_41b26a;
+// BlogScreen — proper blog landing with empty state + newsletter.
+const { Heading, MonoText, Button, Divider } = window.SondrDesignsDesignSystem_41b26a;
+
+const CATEGORIES = ['all', 'process', 'type & design', 'studio life'];
+
 function BlogScreen() {
-  return /*#__PURE__*/React.createElement("section", {
-    style: {
-      padding: '90px 80px 120px',
-      position: 'relative',
-      minHeight: 560
-    }
-  }, /*#__PURE__*/React.createElement("img", {
-    src: "../../assets/tape-cream.png",
-    alt: "",
-    style: {
-      position: 'absolute',
-      width: 260,
-      top: 40,
-      right: 160,
-      transform: 'rotate(-9deg)',
-      filter: 'drop-shadow(2px 3px 4px rgba(0,0,0,.22))'
-    }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 720
-    }
-  }, /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    style: {
-      marginBottom: 20
-    }
-  }, "the notebook \u2014 journal"), /*#__PURE__*/React.createElement(Heading, {
-    style: {
-      fontSize: 80
-    }
-  }, "currently", /*#__PURE__*/React.createElement("br", null), "scribbling"), /*#__PURE__*/React.createElement(MonoText, {
-    style: {
-      marginTop: 32,
-      maxWidth: 560,
-      lineHeight: 1.8
-    }
-  }, "our journal is still in draft. we're filling the margins with notes on process, type, and the little decisions that make a site feel like a person. first entries land soon."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 18,
-      marginTop: 40,
-      alignItems: 'center',
-      flexWrap: 'wrap'
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    placeholder: "your email",
-    style: {
-      background: 'var(--paper-white)',
-      border: 'none',
-      boxShadow: 'inset 0 0 0 1px var(--ink)',
-      padding: '16px 18px',
-      width: 300,
-      fontFamily: 'var(--font-mono)',
-      fontSize: 15,
-      letterSpacing: '.1em',
-      outline: 'none'
-    }
-  }), /*#__PURE__*/React.createElement(Button, {
-    variant: "solid",
-    size: "lg"
-  }, "tell me when it's live"))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      right: 90,
-      bottom: 90
-    }
-  }, /*#__PURE__*/React.createElement(StickyNote, {
-    tilt: 5,
-    size: 190
-  }, "draft: \"why we start on paper\""), /*#__PURE__*/React.createElement(StickyNote, {
-    tilt: -7,
-    size: 170,
-    color: "#c9e5ff",
-    style: {
-      position: 'absolute',
-      top: -40,
-      right: 120
-    }
-  }, "draft: \"type as texture\"")));
+  return (
+    React.createElement('div', null,
+      React.createElement('section', { style: { padding: '58px 80px 56px' } },
+        React.createElement(MonoText, { muted: true, style: { marginBottom: 16, letterSpacing: '.18em' } }, 'the notebook — journal'),
+        React.createElement(Heading, { level: 'title', style: { maxWidth: 640 } }, 'where the work gets unpacked'),
+        React.createElement(MonoText, { style: { marginTop: 20, maxWidth: 560, lineHeight: 1.85 } },
+          'notes on process, type decisions, and the small choices that make a site feel like a person. written in the gaps between projects.'
+        )
+      ),
+      React.createElement(Divider, null),
+      React.createElement('section', { style: { padding: '40px 80px 32px' } },
+        React.createElement('div', { style: { display: 'flex', gap: 10, flexWrap: 'wrap' } },
+          CATEGORIES.map((cat) =>
+            React.createElement('button', {
+              key: cat,
+              type: 'button',
+              style: {
+                fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '.1em',
+                padding: '7px 14px', border: 'none', borderRadius: 0,
+                background: cat === 'all' ? 'var(--ink)' : 'transparent',
+                color: cat === 'all' ? 'var(--paper)' : 'var(--ink)',
+                boxShadow: cat === 'all' ? 'none' : 'inset 0 0 0 1px var(--ink)',
+                cursor: 'default',
+              },
+            }, cat)
+          )
+        )
+      ),
+      React.createElement('section', { style: { padding: '0 80px 80px' } },
+        React.createElement('div', {
+          style: {
+            border: '1.5px dashed var(--rule-color)', padding: '80px 48px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            textAlign: 'center', gap: 16, background: 'rgba(255,255,255,0.35)',
+          }
+        },
+          React.createElement('img', { src: '../../assets/tape-cream.png', alt: '', style: { width: 160, transform: 'rotate(-4deg)', opacity: 0.7, filter: 'drop-shadow(1px 2px 3px rgba(0,0,0,.15))' } }),
+          React.createElement(Heading, { level: 'heading', style: { fontSize: 28, marginTop: 8 } }, 'first entries coming soon'),
+          React.createElement(MonoText, { muted: true, style: { maxWidth: 400, lineHeight: 1.8 } },
+            'we\'re filling the margins now — notes on kerning, wireframes, and how a brief becomes a brand. sign up below to get the first post.'
+          )
+        )
+      ),
+      React.createElement(Divider, null),
+      React.createElement('section', { style: { padding: '64px 80px 80px', background: 'var(--ink)', color: 'var(--paper)' } },
+        React.createElement('div', { style: { maxWidth: 640 } },
+          React.createElement(MonoText, { style: { color: 'rgba(255,255,255,0.55)', letterSpacing: '.16em', marginBottom: 16 } }, 'the dispatch — newsletter'),
+          React.createElement(Heading, { level: 'heading', style: { color: 'var(--paper)', fontSize: 38 } }, 'get new entries in your inbox'),
+          React.createElement(MonoText, { style: { color: 'rgba(255,255,255,0.65)', marginTop: 16, lineHeight: 1.8 } },
+            'no cadence, no filler. one email per post, when it\'s actually ready.'
+          ),
+          React.createElement('div', { style: { display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap', alignItems: 'stretch' } },
+            React.createElement('input', {
+              type: 'email', placeholder: 'your email',
+              style: {
+                background: 'transparent', border: 'none',
+                boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.35)',
+                padding: '14px 18px', width: 280, fontFamily: 'var(--font-mono)',
+                fontSize: 14, letterSpacing: '.08em', outline: 'none', color: 'var(--paper)',
+              }
+            }),
+            React.createElement(Button, {
+              variant: 'outline', size: 'lg',
+              style: { background: 'transparent', color: 'var(--paper)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.55)' }
+            }, 'subscribe →')
+          )
+        )
+      )
+    )
+  );
 }
 window.BlogScreen = BlogScreen;
+
 })(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/sondr-site/BlogScreen.jsx", error: String((e && e.message) || e) }); }
 
 // ui_kits/sondr-site/ContactScreen.jsx
@@ -1069,35 +1058,45 @@ window.ContactScreen = ContactScreen;
 try { (() => {
 /* global React */
 // HomeScreen — hero · featured works (scroll pans sideways) · services/mission · blue CTA · footer
-const {
-  Heading,
-  MonoText,
-  Button,
-  StickyNote,
-  FlipPolaroid,
-  Divider
-} = window.SondrDesignsDesignSystem_41b26a;
+const { Heading, MonoText, Button, StickyNote, FlipPolaroid, Divider } = window.SondrDesignsDesignSystem_41b26a;
+
+function SwipeHint() {
+  return (
+    React.createElement('span', {
+      style: {
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.14em',
+        color: 'var(--ink-muted)', opacity: 0.7,
+      }
+    },
+      React.createElement('span', { style: { display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite' } }, '←'),
+      ' swipe ',
+      React.createElement('span', { style: { display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite reverse' } }, '→'),
+      React.createElement('style', null, `
+        @keyframes swipe-nudge {
+          0%, 100% { transform: translateX(0); opacity: 0.5; }
+          50% { transform: translateX(-4px); opacity: 1; }
+        }
+      `)
+    )
+  );
+}
 
 // Featured works: a scroll-pinned section. Scrolling down through it pans
 // the polaroids horizontally, like flipping sideways through a notebook.
-function FeaturedWorks({
-  go
-}) {
-  const {
-    swatch,
-    WORKS
-  } = window.SondrData;
+function FeaturedWorks({ go }) {
+  const { swatch, WORKS } = window.SondrData;
   const pinRef = React.useRef(null);
   const stickyRef = React.useRef(null);
   const trackRef = React.useRef(null);
   const [mobile, setMobile] = React.useState(false);
+
   React.useEffect(() => {
-    const pin = pinRef.current,
-      sticky = stickyRef.current,
-      track = trackRef.current;
+    const pin = pinRef.current, sticky = stickyRef.current, track = trackRef.current;
     if (!pin || !sticky || !track) return;
     let maxTranslate = 0;
     let isMobile = window.innerWidth < 820;
+
     const measure = () => {
       isMobile = window.innerWidth < 820;
       setMobile(isMobile);
@@ -1109,7 +1108,7 @@ function FeaturedWorks({
         return;
       }
       maxTranslate = Math.max(0, track.scrollWidth - sticky.clientWidth);
-      pin.style.height = window.innerHeight + maxTranslate + 'px';
+      pin.style.height = (window.innerHeight + maxTranslate) + 'px';
       const pitch = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--grid-pitch')) || 24;
       sticky._bgX = -((sticky.getBoundingClientRect().left + window.scrollX) % pitch);
       sticky._bgY = -(sticky.offsetTop % pitch);
@@ -1124,365 +1123,186 @@ function FeaturedWorks({
       track.style.transform = 'translateX(' + (-tx) + 'px)';
       sticky.style.backgroundPosition = (sticky._bgX || 0) + 'px ' + ((sticky._bgY || 0) + tx / 60) + 'px';
     };
+
     measure();
-    window.addEventListener('scroll', update, {
-      passive: true
-    });
+    window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', measure);
     const t1 = setTimeout(measure, 300);
     const t2 = setTimeout(measure, 900); // after webfont settles
     return () => {
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', measure);
-      clearTimeout(t1);
-      clearTimeout(t2);
+      clearTimeout(t1); clearTimeout(t2);
     };
   }, []);
-  const cards = WORKS.map((w, i) => /*#__PURE__*/React.createElement(FlipPolaroid, {
-    key: w.title,
-    width: 290,
-    tilt: [-3, 2, -2, 3, -1, 2][i % 6],
-    assetBase: "../../",
-    src: swatch(w.tint),
-    caption: `${w.title} · ${w.year}`,
-    title: w.title,
-    meta: `${w.year} · ${w.role}`,
-    notes: w.notes,
-    style: {
-      flex: '0 0 auto'
-    }
-  }));
-  return /*#__PURE__*/React.createElement("section", {
-    ref: pinRef,
-    style: {
-      position: 'relative'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    ref: stickyRef,
-    style: {
-      position: mobile ? 'static' : 'sticky',
-      top: 0,
-      height: mobile ? 'auto' : '100vh',
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      backgroundColor: 'var(--paper)',
-      backgroundImage: 'radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size))',
-      backgroundSize: 'var(--grid-pitch) var(--grid-pitch)'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '0 70px',
-      marginBottom: 34,
-      position: 'relative'
-    }
-  }, /*#__PURE__*/React.createElement("img", {
-    src: "../../assets/tape-blue.png",
-    alt: "",
-    style: {
-      position: 'absolute',
-      width: 320,
-      top: -20,
-      left: 52,
-      transform: 'rotate(-2deg)',
-      filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))'
-    }
-  }), /*#__PURE__*/React.createElement(Heading, {
-    level: "title",
-    style: {
-      position: 'relative'
-    }
-  }, "featured works"), /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    style: {
-      marginTop: 12,
-      maxWidth: 520
-    }
-  }, "keep scrolling — the works run sideways, like flipping through a notebook. hover a photo to read the back.")), /*#__PURE__*/React.createElement("div", {
-    ref: trackRef,
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 60,
-      padding: mobile ? '10px 70px 30px' : '10px 70px',
-      overflowX: mobile ? 'auto' : 'visible',
-      willChange: 'transform'
-    }
-  }, cards, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: '0 0 auto',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 18,
-      paddingLeft: 20,
-      paddingRight: 40
-    }
-  }, /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    style: {
-      maxWidth: 200
-    }
-  }, "that's the reel. want the full library?"), /*#__PURE__*/React.createElement(Button, {
-    onClick: () => go('works')
-  }, "see all works →")))));
+
+  const cards = WORKS.map((w, i) => (
+    <FlipPolaroid key={w.title} width={290} tilt={[-3, 2, -2, 3, -1, 2][i % 6]} assetBase="../../"
+      src={swatch(w.tint)} caption={`${w.title} · ${w.year}`}
+      title={w.title} meta={`${w.year} · ${w.role}`} notes={w.notes}
+      style={{ flex: '0 0 auto', scrollSnapAlign: mobile ? 'center' : 'none' }} />
+  ));
+
+  return (
+    <section ref={pinRef} style={{ position: 'relative' }}>
+      <div ref={stickyRef} style={{
+        position: mobile ? 'static' : 'sticky', top: 0,
+        height: mobile ? 'auto' : '100vh', overflow: 'hidden',
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        backgroundColor: 'var(--paper)',
+        backgroundImage: 'radial-gradient(var(--dot) var(--dot-size), transparent var(--dot-size))',
+        backgroundSize: 'var(--grid-pitch) var(--grid-pitch)',
+      }}>
+        {/* pinned heading */}
+        <div style={{ padding: mobile ? '0 24px' : '0 70px', marginBottom: 34, position: 'relative' }}>
+          <img src="../../assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
+          <Heading level="title" style={{ position: 'relative' }}>featured works</Heading>
+          <MonoText muted style={{ marginTop: 12, maxWidth: 520 }}>
+            {mobile
+              ? 'swipe sideways to flip through the projects. tap a photo to read the back.'
+              : 'keep scrolling — the works run sideways, like flipping through a notebook. hover a photo to read the back.'}
+          </MonoText>
+        </div>
+        {/* horizontal track */}
+        <div style={{ position: 'relative' }}>
+          <div ref={trackRef} style={{
+            display: 'flex', alignItems: 'center', gap: 60,
+            padding: mobile ? '10px 24px 40px' : '10px 70px',
+            overflowX: mobile ? 'auto' : 'visible',
+            WebkitOverflowScrolling: 'touch',
+            scrollSnapType: mobile ? 'x mandatory' : 'none',
+            willChange: 'transform',
+          }}>
+            {cards}
+            <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 18, paddingLeft: 20, paddingRight: 40 }}>
+              <MonoText muted style={{ maxWidth: 200 }}>that's the reel. want the full library?</MonoText>
+              <Button onClick={() => go('works')}>see all works →</Button>
+            </div>
+          </div>
+          {mobile && (
+            <div style={{
+              position: 'absolute', top: 0, right: 0, bottom: 40, width: 80,
+              background: 'linear-gradient(to right, transparent, var(--paper))',
+              pointerEvents: 'none',
+            }} />
+          )}
+          {mobile && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, paddingBottom: 18 }}>
+              <SwipeHint />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
-function HomeScreen({
-  go
-}) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("section", {
-    style: {
-      position: 'relative',
-      padding: '30px 70px 66px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      right: 60,
-      top: 20
-    }
-  }, /*#__PURE__*/React.createElement(StickyNote, {
-    tilt: 4,
-    size: 196,
-    style: {
-      position: 'absolute',
-      top: 0,
-      right: 0
-    }
-  }, "since 2024 — we build sites with a soul."), /*#__PURE__*/React.createElement(StickyNote, {
-    tilt: -6,
-    size: 172,
-    color: "#c9e5ff",
-    style: {
-      position: 'absolute',
-      top: 150,
-      right: 74
-    }
-  }, "raw · organic · personal")), /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    style: {
-      marginBottom: 22
-    }
-  }, "a design studio — web, brand & interiors"), /*#__PURE__*/React.createElement(Heading, {
-    style: {
-      maxWidth: 820,
-      fontSize: 88
-    }
-  }, "crafting elevated ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: 'var(--tape-blue)'
-    }
-  }, "digital"), " experiences"), /*#__PURE__*/React.createElement(MonoText, {
-    style: {
-      maxWidth: 600,
-      marginTop: 32,
-      lineHeight: 1.7
-    }
-  }, "we help businesses grow by crafting powerful digital platforms that drive conversion and define your identity in the online space."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 38,
-      display: 'flex',
-      gap: 18
-    }
-  }, /*#__PURE__*/React.createElement(Button, {
-    size: "lg",
-    onClick: () => go('works')
-  }, "view works"), /*#__PURE__*/React.createElement(Button, {
-    size: "lg",
-    variant: "solid",
-    onClick: () => go('contact')
-  }, "get in touch")), /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    size: "small",
-    style: {
-      marginTop: 54,
-      letterSpacing: '.2em'
-    }
-  }, "↓ scroll")), /*#__PURE__*/React.createElement(Divider, null), /*#__PURE__*/React.createElement(FeaturedWorks, {
-    go: go
-  }), /*#__PURE__*/React.createElement(Divider, null), /*#__PURE__*/React.createElement("section", {
-    style: {
-      padding: '70px 70px 84px',
-      display: 'flex',
-      gap: 90,
-      flexWrap: 'wrap'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 420
-    }
-  }, /*#__PURE__*/React.createElement(Heading, {
-    level: "heading"
-  }, "what we do"), /*#__PURE__*/React.createElement(MonoText, {
-    style: {
-      marginTop: 22,
-      lineHeight: 1.8
-    }
-  }, "we treat every project like a page in a notebook — open, a little messy, entirely yours. no templates, no house style pressed onto you. just careful, hand-built work.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 320
-    }
-  }, SERVICES.map(s => /*#__PURE__*/React.createElement("div", {
-    key: s.n,
-    style: {
-      display: 'flex',
-      gap: 26,
-      padding: '22px 0',
-      borderTop: '1.5px solid var(--rule-color)'
-    }
-  }, /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    style: {
-      width: 40
-    }
-  }, s.n), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Heading, {
-    level: "heading",
-    as: "h4",
-    style: {
-      fontSize: 24
-    }
-  }, s.title), /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    size: "small",
-    style: {
-      marginTop: 8
-    }
-  }, s.desc)))))), /*#__PURE__*/React.createElement("section", {
-    style: {
-      background: 'var(--tape-blue)',
-      padding: '92px 70px',
-      position: 'relative',
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("img", {
-    src: "../../assets/tape-cream.png",
-    alt: "",
-    style: {
-      position: 'absolute',
-      width: 240,
-      top: -20,
-      right: 120,
-      transform: 'rotate(8deg)',
-      opacity: 0.9
-    }
-  }), /*#__PURE__*/React.createElement(MonoText, {
-    style: {
-      color: '#fff',
-      letterSpacing: '.14em',
-      marginBottom: 20
-    }
-  }, "got something in mind?"), /*#__PURE__*/React.createElement(Heading, {
-    style: {
-      color: '#fff',
-      fontSize: 72,
-      maxWidth: 900
-    }
-  }, "let's make something unrepeatable"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 40
-    }
-  }, /*#__PURE__*/React.createElement(Button, {
-    size: "lg",
-    onClick: () => go('contact'),
-    style: {
-      background: '#fff',
-      color: 'var(--tape-blue)',
-      boxShadow: 'none'
-    }
-  }, "start a project"))), /*#__PURE__*/React.createElement(Footer, {
-    go: go
-  }));
+
+function HomeScreen({ go }) {
+  return (
+    <div>
+      {/* ---------- HERO ---------- */}
+      <section style={{ position: 'relative', padding: '30px 70px 66px' }}>
+        <div style={{ position: 'absolute', right: 60, top: 20 }}>
+          <StickyNote tilt={4} size={196} style={{ position: 'absolute', top: 0, right: 0 }}>
+            since 2024 — we build sites with a soul.
+          </StickyNote>
+          <StickyNote tilt={-6} size={172} color="#c9e5ff" style={{ position: 'absolute', top: 150, right: 74 }}>
+            raw · organic · personal
+          </StickyNote>
+        </div>
+
+        <MonoText muted style={{ marginBottom: 22 }}>a design studio — web, brand & interiors</MonoText>
+        <Heading style={{ maxWidth: 820, fontSize: 88 }}>crafting elevated <span style={{ color: 'var(--tape-blue)' }}>digital</span> experiences</Heading>
+        <MonoText style={{ maxWidth: 600, marginTop: 32, lineHeight: 1.7 }}>
+          we help businesses grow by crafting powerful digital platforms that drive conversion and define your identity in the online space.
+        </MonoText>
+        <div style={{ marginTop: 38, display: 'flex', gap: 18 }}>
+          <Button size="lg" onClick={() => go('works')}>view works</Button>
+          <Button size="lg" variant="solid" onClick={() => go('contact')}>get in touch</Button>
+        </div>
+        <MonoText muted size="small" style={{ marginTop: 54, letterSpacing: '.2em' }}>↓ scroll</MonoText>
+      </section>
+
+      <Divider />
+
+      {/* ---------- FEATURED WORKS (horizontal pan) ---------- */}
+      <FeaturedWorks go={go} />
+
+      <Divider />
+
+      {/* ---------- SERVICES / MISSION ---------- */}
+      <section style={{ padding: '70px 70px 84px', display: 'flex', gap: 90, flexWrap: 'wrap' }}>
+        <div style={{ maxWidth: 420 }}>
+          <Heading level="heading">what we do</Heading>
+          <MonoText style={{ marginTop: 22, lineHeight: 1.8 }}>
+            we treat every project like a page in a notebook — open, a little messy, entirely yours. no templates, no house style pressed onto you. just careful, hand-built work.
+          </MonoText>
+        </div>
+        <div style={{ flex: 1, minWidth: 320 }}>
+          {SERVICES.map((s) => (
+            <div key={s.n} style={{ display: 'flex', gap: 26, padding: '22px 0', borderTop: '1.5px solid var(--rule-color)' }}>
+              <MonoText muted style={{ width: 40 }}>{s.n}</MonoText>
+              <div>
+                <Heading level="heading" as="h4" style={{ fontSize: 24 }}>{s.title}</Heading>
+                <MonoText muted size="small" style={{ marginTop: 8 }}>{s.desc}</MonoText>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------- BLUE SCREEN CTA ---------- */}
+      <section style={{ background: 'var(--tape-blue)', padding: '92px 70px', position: 'relative', overflow: 'hidden' }}>
+        <img src="../../assets/tape-cream.png" alt="" style={{ position: 'absolute', width: 240, top: -20, right: 120, transform: 'rotate(8deg)', opacity: 0.9 }} />
+        <MonoText style={{ color: '#fff', letterSpacing: '.14em', marginBottom: 20 }}>got something in mind?</MonoText>
+        <Heading style={{ color: '#fff', fontSize: 72, maxWidth: 900 }}>let's make something unrepeatable</Heading>
+        <div style={{ marginTop: 40 }}>
+          <Button size="lg" onClick={() => go('contact')}
+            style={{ background: '#fff', color: 'var(--tape-blue)', boxShadow: 'none' }}>start a project</Button>
+        </div>
+      </section>
+
+      <Footer go={go} />
+    </div>
+  );
 }
-const SERVICES = [{
-  n: '01',
-  title: 'web design & build',
-  desc: 'bespoke marketing sites, portfolios & shops. designed and coded in-house.'
-}, {
-  n: '02',
-  title: 'brand identity',
-  desc: 'marks, type systems and the small details that make a brand feel like a person.'
-}, {
-  n: '03',
-  title: 'interior dept.',
-  desc: 'a growing practice — furniture pieces and spatial thinking, same hand.'
-}];
-function Footer({
-  go
-}) {
-  return /*#__PURE__*/React.createElement("footer", {
-    style: {
-      padding: '60px 70px 70px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      gap: 40,
-      flexWrap: 'wrap',
-      borderTop: '1.5px solid var(--rule-color)'
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'var(--font-mono)',
-      fontSize: 24,
-      letterSpacing: '.14em'
-    }
-  }, "sondr designs"), /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    size: "small",
-    style: {
-      marginTop: 12
-    }
-  }, "© 2026 — crafted by hand, on paper first.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 60
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    size: "small"
-  }, "pages"), ['works', 'blog', 'studio', 'contact'].map(p => /*#__PURE__*/React.createElement("a", {
-    key: p,
-    href: "#",
-    onClick: e => {
-      e.preventDefault();
-      go(p);
-    },
-    style: {
-      fontFamily: 'var(--font-mono)',
-      fontSize: 15,
-      letterSpacing: '.1em',
-      color: 'var(--ink)',
-      textDecoration: 'none'
-    }
-  }, p))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement(MonoText, {
-    muted: true,
-    size: "small"
-  }, "elsewhere"), ['instagram', 'read.cv', 'are.na'].map(p => /*#__PURE__*/React.createElement("a", {
-    key: p,
-    href: "#",
-    onClick: e => e.preventDefault(),
-    style: {
-      fontFamily: 'var(--font-mono)',
-      fontSize: 15,
-      letterSpacing: '.1em',
-      color: 'var(--ink)',
-      textDecoration: 'none'
-    }
-  }, p)))));
+
+const SERVICES = [
+  { n: '01', title: 'web design & build', desc: 'bespoke marketing sites, portfolios & shops. designed and coded in-house.' },
+  { n: '02', title: 'brand identity', desc: 'marks, type systems and the small details that make a brand feel like a person.' },
+  { n: '03', title: 'interior dept.', desc: 'a growing practice — furniture pieces and spatial thinking, same hand.' },
+];
+
+function Footer({ go }) {
+  return (
+    <footer style={{ padding: '60px 70px 70px', display: 'flex', justifyContent: 'space-between', gap: 40, flexWrap: 'wrap', borderTop: '1.5px solid var(--rule-color)' }}>
+      <div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 24, letterSpacing: '.14em' }}>sondr designs</span>
+        <MonoText muted size="small" style={{ marginTop: 12 }}>© 2026 — crafted by hand, on paper first.</MonoText>
+      </div>
+      <div style={{ display: 'flex', gap: 60 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <MonoText muted size="small">pages</MonoText>
+          {['works', 'blog', 'studio', 'contact'].map((p) => (
+            <a key={p} href="#" onClick={(e) => { e.preventDefault(); go(p); }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 15, letterSpacing: '.1em', color: 'var(--ink)', textDecoration: 'none' }}>{p}</a>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <MonoText muted size="small">elsewhere</MonoText>
+          {['instagram', 'read.cv', 'are.na'].map((p) => (
+            <a key={p} href="#" onClick={(e) => e.preventDefault()}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 15, letterSpacing: '.1em', color: 'var(--ink)', textDecoration: 'none' }}>{p}</a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
 }
+
 window.HomeScreen = HomeScreen;
 window.SondrFooter = Footer;
+
 })(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/sondr-site/HomeScreen.jsx", error: String((e && e.message) || e) }); }
 
 // ui_kits/sondr-site/InteriorScreen.jsx

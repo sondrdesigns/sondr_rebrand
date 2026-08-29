@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heading } from '@/components/typography/Heading';
 import { MonoText } from '@/components/typography/MonoText';
 import { FlipPolaroid } from '@/components/scrapbook/FlipPolaroid';
@@ -8,6 +8,13 @@ import { WORKS, swatch } from '@/lib/siteData';
 
 export function WorksScreen() {
   const [filter, setFilter] = useState('all');
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 820);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
   const roles = ['all', ...Array.from(new Set(WORKS.map((work) => work.role)))];
   const shown = filter === 'all' ? WORKS : WORKS.filter((work) => work.role === filter);
 
@@ -15,7 +22,7 @@ export function WorksScreen() {
     <section className="screen-section" style={{ padding: '58px 80px 100px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
         <div>
-          <Heading level="title">the works library</Heading>
+          <Heading level="title" as="h1">the works library</Heading>
           <MonoText muted style={{ marginTop: 14, maxWidth: 520 }}>
             every site we've built, filed by hand. {WORKS.length} projects and counting.
           </MonoText>
@@ -46,11 +53,17 @@ export function WorksScreen() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '64px 48px', marginTop: 56, justifyItems: 'center' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(auto-fill, minmax(240px, 1fr))',
+        gap: mobile ? '48px 16px' : '64px 48px',
+        marginTop: 56,
+        justifyItems: 'center',
+      }}>
         {shown.map((work, index) => (
           <FlipPolaroid
             key={work.title}
-            width={244}
+            width={mobile ? undefined : 244}
             tilt={[-2, 2, -1, 3, -3, 1][index % 6]}
             assetBase="/"
             src={work.image ? undefined : swatch(work.tint)}
@@ -62,6 +75,7 @@ export function WorksScreen() {
             notes={work.notes}
             url={work.url}
             comingSoon={work.comingSoon}
+            style={mobile ? { width: '100%' } : undefined}
           />
         ))}
       </div>

@@ -9,7 +9,7 @@
   --paper-white: rgb(255, 255, 255);  /* clean sheet / card face */
   --ink: rgb(0, 0, 0);                /* primary text + hairline strokes */
   --ink-soft: rgb(102, 99, 99);       /* margin rule + faint pencil lines */
-  --dot: rgb(176, 176, 176);          /* dotted-grid dots */
+  --dot: rgb(212, 209, 198);          /* dotted-grid dots */
   --paper-edge: rgb(217, 217, 217);   /* torn-paper / neutral fill */
 
   /* ---- Accents (physical supplies) ---- */

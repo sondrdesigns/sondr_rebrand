@@ -51,7 +51,7 @@ export function ContactScreen() {
 
   return (
     <section className="screen-section" style={{ padding: '58px 80px 110px' }}>
-      <Heading level="title">say hello</Heading>
+      <Heading level="title" as="h1">say hello</Heading>
       <MonoText muted style={{ marginTop: 14, maxWidth: 520 }}>
         one place for everything. drop a note, or reach us however you like.
       </MonoText>

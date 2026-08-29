@@ -422,6 +422,11 @@ a:hover {
   fill: var(--sticky-yellow);
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 @media (max-width: 820px) {
   /* Hamburger visible on mobile */
   .hamburger {
@@ -488,13 +493,18 @@ a:hover {
     transform: translateY(-25%);
   }
 
+  /* Hide sticky notes on mobile — they overlap the hero heading */
+  .hero-stickies {
+    display: none;
+  }
+
   /* Page sections */
   .hero-section {
     padding: 28px 24px 48px !important;
   }
 
   .hero-h1 {
-    font-size: 42px !important;
+    font-size: 52px !important;
   }
 
   .services-section {
@@ -511,6 +521,23 @@ a:hover {
 
   .screen-section {
     padding: 40px 24px 64px !important;
+  }
+
+  /* Blog layout */
+  .blog-header-section {
+    padding: 48px 24px 40px !important;
+  }
+
+  .blog-posts-section {
+    padding: 32px 24px 24px !important;
+  }
+
+  .blog-empty-section {
+    padding: 0 24px 64px !important;
+  }
+
+  .blog-newsletter-section {
+    padding: 48px 24px 64px !important;
   }
 
   /* Contact layout */

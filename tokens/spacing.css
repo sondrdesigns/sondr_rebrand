@@ -4,7 +4,8 @@
 
 :root {
   /* ---- Dotted-grid ---- */
-  --grid-pitch: 28px;        /* distance between dots */
+  /* --grid-pitch: 28px; */
+  --grid-pitch: 40px;        /* distance between dots */
   --dot-size: 2px;           /* dot diameter */
   --margin-rule-x: 180px;    /* left notebook margin line, from Figma */
 

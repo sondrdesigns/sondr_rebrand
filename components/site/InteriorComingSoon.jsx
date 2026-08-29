@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { Heading } from '@/components/typography/Heading';
 import { MonoText } from '@/components/typography/MonoText';
 import { Button } from '@/components/core/Button';
@@ -7,12 +8,20 @@ import { StickyNote } from '@/components/scrapbook/StickyNote';
 import { Divider } from '@/components/core/Divider';
 
 export function InteriorComingSoon() {
+  const [mobile, setMobile] = React.useState(false);
+  React.useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 820);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
-    <div>
+    <div style={{ overflowX: 'hidden' }}>
       <section
         style={{
           position: 'relative',
-          padding: '70px 70px 90px',
+          padding: mobile ? '48px 24px 64px' : '70px 70px 90px',
           minHeight: 'calc(100vh - 120px)',
           display: 'flex',
           flexDirection: 'column',
@@ -21,21 +30,25 @@ export function InteriorComingSoon() {
           backgroundSize: 'var(--grid-pitch) var(--grid-pitch)',
         }}
       >
-        <img
-          src="/assets/tape-cream.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            width: 260,
-            top: 50,
-            right: 90,
-            transform: 'rotate(-5deg)',
-            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.35))',
-          }}
-        />
-        <StickyNote tilt={5} size={190} style={{ position: 'absolute', top: 80, right: 110 }}>
-          something careful is being made here.
-        </StickyNote>
+        {!mobile && (
+          <>
+            <img
+              src="/assets/tape-cream.png"
+              alt=""
+              style={{
+                position: 'absolute',
+                width: 260,
+                top: 50,
+                right: 90,
+                transform: 'rotate(-5deg)',
+                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.35))',
+              }}
+            />
+            <StickyNote tilt={5} size={190} style={{ position: 'absolute', top: 80, right: 110 }}>
+              something careful is being made here.
+            </StickyNote>
+          </>
+        )}
 
         <MonoText muted style={{ marginBottom: 20, letterSpacing: '.2em' }}>
           interior dept.

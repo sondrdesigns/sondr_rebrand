@@ -10,6 +10,31 @@ import { StickyNote } from '@/components/scrapbook/StickyNote';
 import { FlipPolaroid } from '@/components/scrapbook/FlipPolaroid';
 import { WORKS, swatch } from '@/lib/siteData';
 
+function SwipeHint() {
+  return (
+    <span style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      fontFamily: 'var(--font-mono)',
+      fontSize: 11,
+      letterSpacing: '.14em',
+      color: 'var(--ink-muted)',
+      opacity: 0.7,
+    }}>
+      <span style={{ display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite' }}>←</span>
+      swipe
+      <span style={{ display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite reverse' }}>→</span>
+      <style>{`
+        @keyframes swipe-nudge {
+          0%, 100% { transform: translateX(0); opacity: 0.5; }
+          50% { transform: translateX(-4px); opacity: 1; }
+        }
+      `}</style>
+    </span>
+  );
+}
+
 function FeaturedWorks() {
   const pinRef = React.useRef(null);
   const stickyRef = React.useRef(null);
@@ -81,7 +106,7 @@ function FeaturedWorks() {
       notes={work.notes}
       url={work.url}
       comingSoon={work.comingSoon}
-      style={{ flex: '0 0 auto' }}
+      style={{ flex: '0 0 auto', scrollSnapAlign: mobile ? 'center' : 'none' }}
     />
   ));
 
@@ -103,28 +128,56 @@ function FeaturedWorks() {
         }}
       >
         <div style={{ padding: mobile ? '0 24px' : '0 70px', marginBottom: 34, position: 'relative' }}>
-          <img src="/assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
+          <img src="/assets/tape-blue.png" alt="" style={{ position: 'absolute', width: mobile ? 160 : 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
           <Heading level="title" style={{ position: 'relative' }}>featured works</Heading>
           <MonoText muted style={{ marginTop: 12, maxWidth: 520 }}>
-            keep scrolling - the works run sideways, like flipping through a notebook. hover a photo to read the back.
+            {mobile
+              ? 'swipe sideways to flip through the projects. tap a photo to read the back.'
+              : 'keep scrolling - the works run sideways, like flipping through a notebook. hover a photo to read the back.'}
           </MonoText>
         </div>
-        <div
-          ref={trackRef}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 60,
-            padding: mobile ? '10px 24px 30px' : '10px 70px',
-            overflowX: mobile ? 'auto' : 'visible',
-            willChange: 'transform',
-          }}
-        >
-          {cards}
-          <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 18, paddingLeft: 20, paddingRight: 40 }}>
-            <MonoText muted style={{ maxWidth: 200 }}>that's the reel. want the full library?</MonoText>
-            <Button as="a" href="/works">see all works →</Button>
+        <div style={{ position: 'relative' }}>
+          <div
+            ref={trackRef}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 60,
+              padding: mobile ? '10px 24px 40px' : '10px 70px',
+              overflowX: mobile ? 'auto' : 'visible',
+              WebkitOverflowScrolling: 'touch',
+              scrollSnapType: mobile ? 'x mandatory' : 'none',
+              willChange: 'transform',
+            }}
+          >
+            {cards}
+            <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 18, paddingLeft: 20, paddingRight: 40 }}>
+              <MonoText muted style={{ maxWidth: 200 }}>that's the reel. want the full library?</MonoText>
+              <Button as="a" href="/works">see all works →</Button>
+            </div>
           </div>
+          {mobile && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 40,
+              width: 80,
+              background: 'linear-gradient(to right, transparent, var(--paper))',
+              pointerEvents: 'none',
+            }} />
+          )}
+          {mobile && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              paddingBottom: 18,
+            }}>
+              <SwipeHint />
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -168,7 +221,7 @@ export function HomeScreen() {
   return (
     <div>
       <section className="hero-section" style={{ position: 'relative', padding: '30px 70px 66px' }}>
-        <div style={{ position: 'absolute', right: 60, top: 20 }}>
+        <div className="hero-stickies" style={{ position: 'absolute', right: 60, top: 20 }}>
           <StickyNote tilt={4} size={196} style={{ position: 'absolute', top: 0, right: 0 }}>
             since 2024 - we build sites with a soul.
           </StickyNote>

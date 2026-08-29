@@ -2,6 +2,28 @@
 // HomeScreen — hero · featured works (scroll pans sideways) · services/mission · blue CTA · footer
 const { Heading, MonoText, Button, StickyNote, FlipPolaroid, Divider } = window.SondrDesignsDesignSystem_41b26a;
 
+function SwipeHint() {
+  return (
+    React.createElement('span', {
+      style: {
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.14em',
+        color: 'var(--ink-muted)', opacity: 0.7,
+      }
+    },
+      React.createElement('span', { style: { display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite' } }, '←'),
+      ' swipe ',
+      React.createElement('span', { style: { display: 'inline-block', animation: 'swipe-nudge 1.6s ease-in-out infinite reverse' } }, '→'),
+      React.createElement('style', null, `
+        @keyframes swipe-nudge {
+          0%, 100% { transform: translateX(0); opacity: 0.5; }
+          50% { transform: translateX(-4px); opacity: 1; }
+        }
+      `)
+    )
+  );
+}
+
 // Featured works: a scroll-pinned section. Scrolling down through it pans
 // the polaroids horizontally, like flipping sideways through a notebook.
 function FeaturedWorks({ go }) {
@@ -60,7 +82,7 @@ function FeaturedWorks({ go }) {
     <FlipPolaroid key={w.title} width={290} tilt={[-3, 2, -2, 3, -1, 2][i % 6]} assetBase="../../"
       src={swatch(w.tint)} caption={`${w.title} · ${w.year}`}
       title={w.title} meta={`${w.year} · ${w.role}`} notes={w.notes}
-      style={{ flex: '0 0 auto' }} />
+      style={{ flex: '0 0 auto', scrollSnapAlign: mobile ? 'center' : 'none' }} />
   ));
 
   return (
@@ -74,25 +96,43 @@ function FeaturedWorks({ go }) {
         backgroundSize: 'var(--grid-pitch) var(--grid-pitch)',
       }}>
         {/* pinned heading */}
-        <div style={{ padding: '0 70px', marginBottom: 34, position: 'relative' }}>
-          <img src="../../assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
+        <div style={{ padding: mobile ? '0 24px' : '0 70px', marginBottom: 34, position: 'relative' }}>
+          <img src="../../assets/tape-blue.png" alt="" style={{ position: 'absolute', width: 320, top: -20, left: mobile ? 8 : 52, transform: 'rotate(-2deg)', filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,.4))' }} />
           <Heading level="title" style={{ position: 'relative' }}>featured works</Heading>
           <MonoText muted style={{ marginTop: 12, maxWidth: 520 }}>
-            keep scrolling — the works run sideways, like flipping through a notebook. hover a photo to read the back.
+            {mobile
+              ? 'swipe sideways to flip through the projects. tap a photo to read the back.'
+              : 'keep scrolling — the works run sideways, like flipping through a notebook. hover a photo to read the back.'}
           </MonoText>
         </div>
         {/* horizontal track */}
-        <div ref={trackRef} style={{
-          display: 'flex', alignItems: 'center', gap: 60,
-          padding: mobile ? '10px 70px 30px' : '10px 70px',
-          overflowX: mobile ? 'auto' : 'visible',
-          willChange: 'transform',
-        }}>
-          {cards}
-          <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 18, paddingLeft: 20, paddingRight: 40 }}>
-            <MonoText muted style={{ maxWidth: 200 }}>that's the reel. want the full library?</MonoText>
-            <Button onClick={() => go('works')}>see all works →</Button>
+        <div style={{ position: 'relative' }}>
+          <div ref={trackRef} style={{
+            display: 'flex', alignItems: 'center', gap: 60,
+            padding: mobile ? '10px 24px 40px' : '10px 70px',
+            overflowX: mobile ? 'auto' : 'visible',
+            WebkitOverflowScrolling: 'touch',
+            scrollSnapType: mobile ? 'x mandatory' : 'none',
+            willChange: 'transform',
+          }}>
+            {cards}
+            <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 18, paddingLeft: 20, paddingRight: 40 }}>
+              <MonoText muted style={{ maxWidth: 200 }}>that's the reel. want the full library?</MonoText>
+              <Button onClick={() => go('works')}>see all works →</Button>
+            </div>
           </div>
+          {mobile && (
+            <div style={{
+              position: 'absolute', top: 0, right: 0, bottom: 40, width: 80,
+              background: 'linear-gradient(to right, transparent, var(--paper))',
+              pointerEvents: 'none',
+            }} />
+          )}
+          {mobile && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, paddingBottom: 18 }}>
+              <SwipeHint />
+            </div>
+          )}
         </div>
       </div>
     </section>
