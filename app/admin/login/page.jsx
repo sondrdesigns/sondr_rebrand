@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -10,12 +11,17 @@ export default function LoginPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail.endsWith('@sondrdesigns.com')) {
+      setError('use your @sondrdesigns.com email.');
+      return;
+    }
     setLoading(true);
     setError('');
     const res = await fetch('/api/admin/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ email: trimmedEmail, password }),
     });
     if (res.ok) {
       router.push('/admin');
@@ -27,47 +33,92 @@ export default function LoginPage() {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 1000,
+      position: 'fixed', inset: 0,
       background: 'rgb(255,251,240)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'var(--font-mono, monospace)',
+      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     }}>
-      <div style={{ width: '100%', maxWidth: 400, padding: '0 24px' }}>
-        {/* Museum header */}
-        <div style={{ marginBottom: 56, textAlign: 'center' }}>
-          <div style={{ fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgb(102,99,99)', marginBottom: 16 }}>
-            sondr designs — restricted access
+      <div style={{ width: '100%', maxWidth: 380, padding: '0 24px' }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)', marginBottom: 12 }}>
+            Sondr Designs
           </div>
-          <div style={{ fontFamily: 'var(--font-serif)', fontSize: 32, fontWeight: 400, color: 'rgb(0,0,0)', lineHeight: 1.2 }}>
-            Editorial Archive
+          <div style={{ fontSize: 26, fontWeight: 500, color: 'rgb(0,0,0)', letterSpacing: '-0.01em' }}>
+            Admin
           </div>
-          <div style={{ marginTop: 12, width: 40, height: 1, background: 'rgb(0,0,0)', margin: '12px auto 0' }} />
+          <div style={{ marginTop: 16, height: 1, background: 'rgba(0,0,0,0.12)' }} />
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: 24 }}>
-            <label style={{ display: 'block', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgb(102,99,99)', marginBottom: 10 }}>
-              Access Code
+          {/* Email */}
+          <div style={{ marginBottom: 20 }}>
+            <label style={{
+              display: 'block', fontSize: 10, letterSpacing: '0.2em',
+              textTransform: 'uppercase', color: 'rgba(0,0,0,0.5)', marginBottom: 8,
+            }}>
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="you@sondrdesigns.com"
+              required
+              autoFocus
+              style={{
+                width: '100%', boxSizing: 'border-box',
+                background: 'transparent',
+                border: '1.5px solid rgba(0,0,0,0.2)',
+                padding: '11px 14px',
+                fontSize: 14,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                color: 'rgb(0,0,0)',
+                outline: 'none',
+                letterSpacing: '0.02em',
+                transition: 'border-color 0.12s',
+              }}
+              onFocus={e => { e.target.style.borderColor = 'rgb(0,0,0)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(0,0,0,0.2)'; }}
+            />
+          </div>
+
+          {/* Password */}
+          <div style={{ marginBottom: 28 }}>
+            <label style={{
+              display: 'block', fontSize: 10, letterSpacing: '0.2em',
+              textTransform: 'uppercase', color: 'rgba(0,0,0,0.5)', marginBottom: 8,
+            }}>
+              Password
             </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              autoFocus
+              required
               style={{
                 width: '100%', boxSizing: 'border-box',
                 background: 'transparent',
-                border: 'none', borderBottom: '1.5px solid rgb(0,0,0)',
-                padding: '10px 0', fontSize: 15,
-                fontFamily: 'var(--font-mono, monospace)',
-                color: 'rgb(0,0,0)', outline: 'none',
+                border: '1.5px solid rgba(0,0,0,0.2)',
+                padding: '11px 14px',
+                fontSize: 14,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                color: 'rgb(0,0,0)',
+                outline: 'none',
                 letterSpacing: '0.08em',
+                transition: 'border-color 0.12s',
               }}
+              onFocus={e => { e.target.style.borderColor = 'rgb(0,0,0)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(0,0,0,0.2)'; }}
             />
           </div>
 
           {error && (
-            <div style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--ikb, rgb(0,47,167))', marginBottom: 20 }}>
+            <div style={{
+              fontSize: 11, letterSpacing: '0.1em',
+              color: 'rgb(180,0,0)', marginBottom: 20,
+            }}>
               {error}
             </div>
           )}
@@ -76,21 +127,24 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             style={{
-              width: '100%', padding: '16px 0',
+              width: '100%', padding: '14px 0',
               background: 'rgb(0,0,0)', color: 'rgb(255,251,240)',
               border: 'none', cursor: loading ? 'wait' : 'pointer',
-              fontFamily: 'var(--font-serif)',
-              fontStyle: 'italic', fontSize: 17,
-              letterSpacing: '0.04em',
-              transition: 'transform 120ms ease',
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontSize: 12, fontWeight: 500,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
             }}
           >
-            {loading ? 'verifying…' : 'Enter the Archive'}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
 
-        <div style={{ marginTop: 48, textAlign: 'center', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgb(102,99,99)' }}>
-          sondr designs &middot; leeds &middot; est. 2024
+        <div style={{
+          marginTop: 48, fontSize: 10, letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)', textAlign: 'center',
+        }}>
+          Sondr Designs &middot; Honolulu &middot; Est. 2025
         </div>
       </div>
     </div>
