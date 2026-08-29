@@ -12,8 +12,10 @@ export default function LoginPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     const trimmedEmail = email.trim().toLowerCase();
-    if (!trimmedEmail.endsWith('@sondrdesigns.com')) {
-      setError('use your @sondrdesigns.com email.');
+    const domain = trimmedEmail.split('@')[1] ?? '';
+    const validDomain = domain === 'sondrdesigns.com' || domain === 'sondr' || domain.startsWith('sondr.');
+    if (!validDomain) {
+      setError('use your sondr email to sign in.');
       return;
     }
     setLoading(true);

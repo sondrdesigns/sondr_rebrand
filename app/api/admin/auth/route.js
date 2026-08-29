@@ -14,8 +14,10 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  // Require a @sondrdesigns.com email
-  if (!email.trim().toLowerCase().endsWith('@sondrdesigns.com')) {
+  // Require a sondr email — allows @sondrdesigns.com, @sondr.com, @sondr.studio, @sondr, etc.
+  const domain = email.trim().toLowerCase().split('@')[1] ?? '';
+  const validDomain = domain === 'sondrdesigns.com' || domain === 'sondr' || domain.startsWith('sondr.');
+  if (!validDomain) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
