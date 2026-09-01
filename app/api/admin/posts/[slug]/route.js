@@ -31,7 +31,8 @@ export async function DELETE(request, { params }) {
   try {
     await deletePost(slug);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch (error) {
+    console.error('Failed to delete post', { slug, error });
+    return NextResponse.json({ error: 'Unable to delete article' }, { status: 500 });
   }
 }

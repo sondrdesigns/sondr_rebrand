@@ -29,7 +29,7 @@ export default function BlogListPage() {
     if (!confirm('Delete this entry permanently?')) return;
     setDeletingSlug(slug);
     try {
-      const res = await fetch(`/api/admin/posts/${slug}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/posts/${encodeURIComponent(slug)}`, { method: 'DELETE' });
       if (res.ok) {
         setPosts(prev => prev.filter(p => p.slug !== slug));
       } else {
