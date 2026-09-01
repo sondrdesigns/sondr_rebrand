@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
+import { getGETaxPercent, getGETaxRateId } from '@/lib/stripe-tax';
 
 function stripe(key, path, method = 'GET', body = null) {
   const opts = {
@@ -55,11 +56,14 @@ export async function POST(request) {
     }
 
     // 2. Add invoice line item
+    const geTaxRateId = await getGETaxRateId(key, stripe);
     const itemBody = {
       customer: customerId,
       amount: String(Math.round(amountCents)),
       currency,
       description: description || 'Design services',
+      'tax_rates[0]': geTaxRateId,
+      'metadata[ge_tax_percent]': String(getGETaxPercent()),
     };
     const item = await stripe(key, '/invoiceitems', 'POST', itemBody);
     if (item.error) throw new Error(item.error.message);
@@ -76,6 +80,8 @@ export async function POST(request) {
       invoiceBody.days_until_due = '30';
     }
     if (projectId) invoiceBody['metadata[project_id]'] = projectId;
+    invoiceBody['metadata[ge_tax_rate_id]'] = geTaxRateId;
+    invoiceBody['metadata[ge_tax_percent]'] = String(getGETaxPercent());
 
     const invoice = await stripe(key, '/invoices', 'POST', invoiceBody);
     if (invoice.error) throw new Error(invoice.error.message);

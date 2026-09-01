@@ -38,6 +38,7 @@ export async function POST(request) {
       } catch {}
     }
     results[type] = { seeded, skipped };
+    await storeSetFlag(`${type}:seeded`, '1');
   }
 
   // Seed blog posts (MDX format → stored as { frontmatter, content })

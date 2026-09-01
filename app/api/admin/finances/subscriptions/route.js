@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
+import { getGETaxPercent, getGETaxRateId } from '@/lib/stripe-tax';
 
 function stripe(key, path, method = 'GET', body = null) {
   const opts = { method, headers: { Authorization: `Bearer ${key}` } };
@@ -57,15 +58,19 @@ export async function POST(request) {
     }
 
     const name = planName || 'Retainer';
+    const geTaxRateId = await getGETaxRateId(key, stripe);
     const subBody = {
       customer: customerId,
       'items[0][price_data][currency]': currency,
       'items[0][price_data][unit_amount]': String(Math.round(amountCents)),
       'items[0][price_data][recurring][interval]': interval,
       'items[0][price_data][product_data][name]': name,
+      'default_tax_rates[0]': geTaxRateId,
       collection_method: 'send_invoice',
       days_until_due: '30',
       'metadata[plan_name]': name,
+      'metadata[ge_tax_rate_id]': geTaxRateId,
+      'metadata[ge_tax_percent]': String(getGETaxPercent()),
     };
     if (projectId) subBody['metadata[project_id]'] = projectId;
 

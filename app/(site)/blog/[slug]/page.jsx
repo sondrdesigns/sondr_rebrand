@@ -11,8 +11,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
+  const { slug } = await params;
   try {
-    const { frontmatter } = await getPost(params.slug);
+    const { frontmatter } = await getPost(slug);
     return {
       title: frontmatter.seo?.metaTitle || `${frontmatter.title} — Sondr Designs`,
       description: frontmatter.seo?.metaDescription || frontmatter.excerpt,
@@ -28,9 +29,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogPostPage({ params }) {
+  const { slug } = await params;
   let post;
   try {
-    post = await getPost(params.slug);
+    post = await getPost(slug);
   } catch {
     notFound();
   }

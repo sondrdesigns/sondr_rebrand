@@ -17,7 +17,7 @@ export async function DELETE(request, { params }) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
 
-  const { id } = params;
+  const { id } = await params;
   if (!id || !/^sub_[a-zA-Z0-9]+$/.test(id)) {
     return NextResponse.json({ error: 'Invalid subscription ID' }, { status: 400 });
   }

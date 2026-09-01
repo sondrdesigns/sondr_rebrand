@@ -3,9 +3,10 @@ import { notFound } from 'next/navigation';
 import { PostEditor } from '@/components/admin/PostEditor';
 
 export default async function EditPostPage({ params }) {
+  const { slug } = await params;
   let post;
   try {
-    post = await getPost(params.slug);
+    post = await getPost(slug);
   } catch {
     notFound();
   }

@@ -14,9 +14,10 @@ const STATUS_COLOR = {
 };
 
 export default async function ProjectTasksPage({ params }) {
+  const { id } = await params;
   let project;
   try {
-    project = await getProject(params.id);
+    project = await getProject(id);
   } catch {
     notFound();
   }
@@ -36,7 +37,7 @@ export default async function ProjectTasksPage({ params }) {
         flexShrink: 0,
       }}>
         <Link
-          href={`/admin/projects/${params.id}`}
+          href={`/admin/projects/${id}`}
           style={{
             fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase',
             color: 'var(--ink-soft)', textDecoration: 'none',
@@ -72,7 +73,7 @@ export default async function ProjectTasksPage({ params }) {
       </div>
 
       {/* Task board */}
-      <TaskBoard projectId={params.id} members={members} />
+      <TaskBoard projectId={id} members={members} />
     </div>
   );
 }

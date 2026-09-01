@@ -4,9 +4,10 @@ import { getMember } from '@/lib/members';
 import { MemberForm } from '@/components/admin/MemberForm';
 
 export default async function EditMemberPage({ params }) {
+  const { id } = await params;
   let member;
   try {
-    member = await getMember(params.id);
+    member = await getMember(id);
   } catch {
     notFound();
   }

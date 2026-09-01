@@ -8,16 +8,17 @@ import { getAllTasks } from '@/lib/tasks';
 import { ProjectForm } from '@/components/admin/ProjectForm';
 
 export default async function EditProjectPage({ params }) {
+  const { id } = await params;
   let project;
   try {
-    project = await getProject(params.id);
+    project = await getProject(id);
   } catch {
     notFound();
   }
 
   const [members, tasks] = await Promise.all([
     getAllMembers(),
-    getAllTasks({ projectId: params.id }),
+    getAllTasks({ projectId: id }),
   ]);
 
   const taskCounts = {
@@ -50,7 +51,7 @@ export default async function EditProjectPage({ params }) {
 
         {/* Tasks quick link */}
         <Link
-          href={`/admin/projects/${params.id}/tasks`}
+          href={`/admin/projects/${id}/tasks`}
           style={{
             display: 'flex',
             alignItems: 'center',

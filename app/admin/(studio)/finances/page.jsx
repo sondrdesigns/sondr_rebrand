@@ -14,6 +14,7 @@ const inp = {
 };
 
 const CURRENCIES = ['usd', 'gbp', 'eur', 'aud', 'cad'];
+const GE_TAX_PERCENT = 4.712;
 
 function fmt(amount, currency = 'usd') {
   return new Intl.NumberFormat('en-US', {
@@ -24,6 +25,17 @@ function fmt(amount, currency = 'usd') {
 function fmtDate(unix) {
   if (!unix) return '—';
   return new Date(unix * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function toCents(value) {
+  const amount = Number.parseFloat(value);
+  if (!Number.isFinite(amount) || amount <= 0) return 0;
+  return Math.round(amount * 100);
+}
+
+function withGETax(cents) {
+  const taxCents = Math.round(cents * (GE_TAX_PERCENT / 100));
+  return { taxCents, totalCents: cents + taxCents };
 }
 
 function StatTile({ label: lbl, value, sub }) {
@@ -249,6 +261,8 @@ export default function FinancesPage() {
   const invList   = invoices?.invoices || [];
 
   const activeSubCount = subList.filter(s => s.status === 'active' && !s.cancel_at_period_end).length;
+  const invPreview = withGETax(toCents(invForm.amount));
+  const subPreview = withGETax(toCents(subForm.amount));
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--paper)', fontFamily: 'var(--font-mono)' }}>
@@ -321,6 +335,11 @@ export default function FinancesPage() {
                 <div>
                   <span style={label}>Amount ({invForm.currency.toUpperCase()}) *</span>
                   <input type="number" required min="0.01" step="0.01" placeholder="0.00" value={invForm.amount} onChange={e => setInv('amount', e.target.value)} style={inp} />
+                  {toCents(invForm.amount) > 0 && (
+                    <div style={{ marginTop: 8, fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '0.04em', lineHeight: 1.6 }}>
+                      GE tax {GE_TAX_PERCENT}%: {fmt(invPreview.taxCents, invForm.currency)} · total {fmt(invPreview.totalCents, invForm.currency)}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <span style={label}>Currency</span>
@@ -384,6 +403,11 @@ export default function FinancesPage() {
                 <div>
                   <span style={label}>Amount per Period ({subForm.currency.toUpperCase()}) *</span>
                   <input type="number" required min="0.01" step="0.01" placeholder="0.00" value={subForm.amount} onChange={e => setSub('amount', e.target.value)} style={inp} />
+                  {toCents(subForm.amount) > 0 && (
+                    <div style={{ marginTop: 8, fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '0.04em', lineHeight: 1.6 }}>
+                      GE tax {GE_TAX_PERCENT}%: {fmt(subPreview.taxCents, subForm.currency)} · total {fmt(subPreview.totalCents, subForm.currency)}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <span style={label}>Currency</span>
