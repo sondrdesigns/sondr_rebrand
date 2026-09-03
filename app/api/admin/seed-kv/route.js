@@ -1,9 +1,8 @@
-// One-time endpoint to seed Vercel KV from committed content/ files.
-// Call once after enabling KV: POST /api/admin/seed-kv
-// Safe to call multiple times — skips IDs already present in KV.
+// One-time endpoint to seed Redis from committed content/ files.
+// Safe to call multiple times because IDs already in Redis are skipped.
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
-import { storeSet, storeList, storeSetFlag } from '@/lib/store';
+import { getStoreStatus, storeSet, storeList, storeSetFlag } from '@/lib/store';
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
@@ -12,8 +11,8 @@ export async function POST(request) {
   const authErr = await requireAuth(request);
   if (authErr) return authErr;
 
-  if (!process.env.KV_REST_API_URL) {
-    return NextResponse.json({ error: 'KV not configured — add a KV store in your Vercel dashboard.' }, { status: 503 });
+  if (getStoreStatus().mode !== 'redis') {
+    return NextResponse.json({ error: 'Redis not configured. Connect Upstash Redis and redeploy.' }, { status: 503 });
   }
 
   const results = {};

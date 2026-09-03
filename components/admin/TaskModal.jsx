@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { apiErrorMessage } from '@/lib/client-api';
 
 const PRIORITIES = ['low', 'medium', 'high'];
 const STATUSES = [
@@ -48,6 +49,7 @@ export function TaskModal({ task, projectId, members, onSave, onDelete, onClose 
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function set(key, val) {
     setForm(f => ({ ...f, [key]: val }));
@@ -62,6 +64,7 @@ export function TaskModal({ task, projectId, members, onSave, onDelete, onClose 
   async function handleSave() {
     if (!form.title.trim()) return;
     setSaving(true);
+    setErrorMessage('');
     try {
       const payload = { ...form, projectId };
       let res;
@@ -72,14 +75,17 @@ export function TaskModal({ task, projectId, members, onSave, onDelete, onClose 
           body: JSON.stringify(payload),
         });
       } else {
-        res = await fetch(`/api/admin/tasks/${task.id}`, {
+        res = await fetch(`/api/admin/tasks/${encodeURIComponent(task.id)}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...task, ...payload }),
         });
       }
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to save task'));
       const data = await res.json();
       onSave({ ...payload, id: isNew ? data.id : task.id });
+    } catch (error) {
+      setErrorMessage(error.message);
     } finally {
       setSaving(false);
     }
@@ -89,8 +95,11 @@ export function TaskModal({ task, projectId, members, onSave, onDelete, onClose 
     if (!confirm('Delete this task?')) return;
     setDeleting(true);
     try {
-      await fetch(`/api/admin/tasks/${task.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/tasks/${encodeURIComponent(task.id)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to delete task'));
       onDelete(task.id);
+    } catch (error) {
+      setErrorMessage(error.message);
     } finally {
       setDeleting(false);
     }
@@ -239,6 +248,11 @@ export function TaskModal({ task, projectId, members, onSave, onDelete, onClose 
           alignItems: 'center',
           borderTop: '1px solid rgba(0,0,0,0.08)',
         }}>
+          {errorMessage && (
+            <span style={{ color: 'rgb(180,0,0)', fontFamily: 'var(--font-mono)', fontSize: 11, lineHeight: 1.4 }}>
+              {errorMessage}
+            </span>
+          )}
           <button
             onClick={handleSave}
             disabled={saving || !form.title.trim()}

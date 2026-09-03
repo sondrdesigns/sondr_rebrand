@@ -1,21 +1,27 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react';
 import { useState, useRef } from 'react';
+import { apiErrorMessage } from '@/lib/client-api';
 
 function ExhibitionImageNodeView({ node, updateAttributes }) {
   const { src, alt, photographer, date, context } = node.attrs;
   const [uploading, setUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const fileRef = useRef();
 
   async function handleFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     setUploading(true);
+    setErrorMessage('');
     try {
       const form = new FormData();
       form.append('file', file);
       const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to upload image'));
       const { url } = await res.json();
       updateAttributes({ src: url });
+    } catch (error) {
+      setErrorMessage(error.message);
     } finally {
       setUploading(false);
     }
@@ -93,7 +99,7 @@ function ExhibitionImageNodeView({ node, updateAttributes }) {
             <span style={{
               fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 14, color: 'rgba(0,0,0,0.35)',
             }}>
-              {uploading ? 'Uploading…' : 'Click to add exhibition image'}
+              {uploading ? 'Uploading…' : errorMessage || 'Click to add exhibition image'}
             </span>
           </div>
         )}

@@ -1,20 +1,26 @@
 'use client';
 import { useRef, useState } from 'react';
+import { apiErrorMessage } from '@/lib/client-api';
 
 export function CoverImageUpload({ value, onChange }) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const inputRef = useRef();
 
   async function handleFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     setUploading(true);
+    setErrorMessage('');
     try {
       const form = new FormData();
       form.append('file', file);
       const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to upload image'));
       const { url } = await res.json();
       onChange(url);
+    } catch (error) {
+      setErrorMessage(error.message);
     } finally {
       setUploading(false);
     }
@@ -98,7 +104,7 @@ export function CoverImageUpload({ value, onChange }) {
         color: 'rgba(0,0,0,0.3)',
         fontFamily: 'var(--font-mono)',
       }}>
-        jpeg · png · webp
+        {errorMessage || 'jpeg · png · webp · max 4 mb'}
       </div>
     </div>
   );

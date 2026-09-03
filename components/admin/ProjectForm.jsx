@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { apiErrorMessage } from '@/lib/client-api';
 
 const STATUS_OPTIONS = ['Pitched', 'Active', 'On Hold', 'Completed'];
 
@@ -33,6 +34,7 @@ export function ProjectForm({ initialData, members = [], isNew }) {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [saveState, setSaveState] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [form, setForm] = useState({
     name: initialData?.name || '',
@@ -60,6 +62,7 @@ export function ProjectForm({ initialData, members = [], isNew }) {
   async function handleSave() {
     setSaving(true);
     setSaveState('saving');
+    setErrorMessage('');
     try {
       let res;
       if (isNew) {
@@ -69,13 +72,13 @@ export function ProjectForm({ initialData, members = [], isNew }) {
           body: JSON.stringify(form),
         });
       } else {
-        res = await fetch(`/api/admin/projects/${initialData.id}`, {
+        res = await fetch(`/api/admin/projects/${encodeURIComponent(initialData.id)}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...form, id: initialData.id }),
         });
       }
-      if (!res.ok) throw new Error('Save failed');
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to save project'));
       const data = await res.json();
       setSaveState('saved');
       setTimeout(() => setSaveState('idle'), 2000);
@@ -84,8 +87,9 @@ export function ProjectForm({ initialData, members = [], isNew }) {
       } else {
         router.refresh();
       }
-    } catch {
+    } catch (error) {
       setSaveState('error');
+      setErrorMessage(error.message);
     } finally {
       setSaving(false);
     }
@@ -95,8 +99,12 @@ export function ProjectForm({ initialData, members = [], isNew }) {
     if (!confirm(`Delete "${form.name || 'this project'}"? This cannot be undone.`)) return;
     setDeleting(true);
     try {
-      await fetch(`/api/admin/projects/${initialData.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/projects/${encodeURIComponent(initialData.id)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to delete project'));
       router.push('/admin/projects');
+    } catch (error) {
+      setSaveState('error');
+      setErrorMessage(error.message);
     } finally {
       setDeleting(false);
     }
@@ -272,7 +280,7 @@ export function ProjectForm({ initialData, members = [], isNew }) {
             color: saveState === 'error' ? '#c0392b' : 'var(--ink-soft)',
             fontFamily: 'var(--font-mono)',
           }}>
-            {saveLabel}
+            {saveState === 'error' ? errorMessage || saveLabel : saveLabel}
           </span>
         )}
 

@@ -19,6 +19,7 @@ import { TagInput } from './TagInput';
 import { MetaPanel } from './MetaPanel';
 import { PublishPanel } from './PublishPanel';
 import { CoverImageUpload } from './CoverImageUpload';
+import { apiErrorMessage } from '@/lib/client-api';
 
 function toSlug(t) {
   return t
@@ -61,6 +62,7 @@ export function PostEditor({ initialFrontmatter, initialContent, isNew }) {
   const [excerpt, setExcerpt] = useState(initialFrontmatter?.excerpt || '');
   const [dropCap, setDropCap] = useState(initialFrontmatter?.dropCap || false);
   const [saveState, setSaveState] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [firstPublish, setFirstPublish] = useState(!initialFrontmatter?.publishedAt);
   const [titleFocused, setTitleFocused] = useState(false);
 
@@ -101,6 +103,7 @@ export function PostEditor({ initialFrontmatter, initialContent, isNew }) {
   const handleSave = useCallback(async () => {
     if (!editor) return;
     setSaveState('saving');
+    setErrorMessage('');
 
     const html = editor.getHTML();
 
@@ -130,23 +133,24 @@ export function PostEditor({ initialFrontmatter, initialContent, isNew }) {
           body: JSON.stringify({ frontmatter, content: html }),
         });
       } else {
-        res = await fetch(`/api/admin/posts/${slug}`, {
+        res = await fetch(`/api/admin/posts/${encodeURIComponent(initialFrontmatter.slug)}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ frontmatter, content: html }),
         });
       }
 
-      if (!res.ok) throw new Error('Save failed');
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to save article'));
       const data = await res.json();
       setSaveState('saved');
       setTimeout(() => setSaveState('idle'), 2000);
 
-      if (isNew && data.slug) {
+      if (data.slug && (isNew || data.slug !== initialFrontmatter?.slug)) {
         router.replace(`/admin/blog/${data.slug}/edit`);
       }
-    } catch {
+    } catch (error) {
       setSaveState('error');
+      setErrorMessage(error.message);
     }
   }, [editor, title, slug, tags, status, scheduledFor, coverImage, excerpt, dropCap, firstPublish, isNew, initialFrontmatter]);
 
@@ -223,7 +227,7 @@ export function PostEditor({ initialFrontmatter, initialContent, isNew }) {
               color: saveState === 'error' ? '#c0392b' : 'var(--ink-soft)',
               fontFamily: 'var(--font-mono)',
             }}>
-              {saveLabel}
+              {saveState === 'error' ? errorMessage || saveLabel : saveLabel}
             </span>
           ) : null}
           <button

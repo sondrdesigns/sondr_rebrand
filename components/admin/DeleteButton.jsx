@@ -1,11 +1,16 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { apiErrorMessage } from '@/lib/client-api';
 
 export function DeleteButton({ slug }) {
   const router = useRouter();
   async function handleDelete() {
     if (!confirm('Delete this entry permanently?')) return;
-    await fetch(`/api/admin/posts/${slug}`, { method: 'DELETE' });
+    const res = await fetch(`/api/admin/posts/${encodeURIComponent(slug)}`, { method: 'DELETE' });
+    if (!res.ok) {
+      alert(await apiErrorMessage(res, 'Unable to delete article'));
+      return;
+    }
     router.refresh();
   }
   return (

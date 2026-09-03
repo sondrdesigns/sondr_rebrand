@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { apiErrorMessage } from '@/lib/client-api';
 
 const ROLE_SUGGESTIONS = ['Designer', 'Developer', 'Strategist', 'Account Manager', 'Creative Director', 'Copywriter'];
 
@@ -33,6 +34,7 @@ export function MemberForm({ initialData, isNew }) {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [saveState, setSaveState] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [form, setForm] = useState({
     name: initialData?.name || '',
@@ -49,6 +51,7 @@ export function MemberForm({ initialData, isNew }) {
   async function handleSave() {
     setSaving(true);
     setSaveState('saving');
+    setErrorMessage('');
     try {
       let res;
       if (isNew) {
@@ -58,14 +61,14 @@ export function MemberForm({ initialData, isNew }) {
           body: JSON.stringify(form),
         });
       } else {
-        res = await fetch(`/api/admin/members/${initialData.id}`, {
+        res = await fetch(`/api/admin/members/${encodeURIComponent(initialData.id)}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...form, id: initialData.id }),
         });
       }
       if (res.status === 401) { router.push('/admin/login'); return; }
-      if (!res.ok) throw new Error('Save failed');
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to save member'));
       const data = await res.json();
       setSaveState('saved');
       if (isNew) {
@@ -74,8 +77,9 @@ export function MemberForm({ initialData, isNew }) {
         router.refresh();
         setTimeout(() => setSaveState('idle'), 2000);
       }
-    } catch {
+    } catch (error) {
       setSaveState('error');
+      setErrorMessage(error.message);
     } finally {
       setSaving(false);
     }
@@ -85,8 +89,12 @@ export function MemberForm({ initialData, isNew }) {
     if (!confirm(`Remove ${form.name || 'this member'}? This cannot be undone.`)) return;
     setDeleting(true);
     try {
-      await fetch(`/api/admin/members/${initialData.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/members/${encodeURIComponent(initialData.id)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(await apiErrorMessage(res, 'Unable to delete member'));
       router.push('/admin/members');
+    } catch (error) {
+      setSaveState('error');
+      setErrorMessage(error.message);
     } finally {
       setDeleting(false);
     }
@@ -221,7 +229,7 @@ export function MemberForm({ initialData, isNew }) {
             color: saveState === 'error' ? '#c0392b' : 'var(--ink-soft)',
             fontFamily: 'var(--font-mono)',
           }}>
-            {saveLabel}
+            {saveState === 'error' ? errorMessage || saveLabel : saveLabel}
           </span>
         )}
 

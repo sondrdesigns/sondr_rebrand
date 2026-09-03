@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { apiErrorMessage } from '@/lib/client-api';
 
 const STATUS_COLOR = {
   published: 'rgb(0,0,0)',
@@ -17,12 +18,16 @@ export default function BlogListPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingSlug, setDeletingSlug] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetch('/api/admin/posts')
-      .then(r => r.json())
+      .then(async r => {
+        if (!r.ok) throw new Error(await apiErrorMessage(r, 'Unable to load articles'));
+        return r.json();
+      })
       .then(data => { setPosts(Array.isArray(data) ? data : []); setLoading(false); })
-      .catch(() => setLoading(false));
+      .catch(error => { setErrorMessage(error.message); setLoading(false); });
   }, []);
 
   async function handleDelete(slug) {
@@ -74,7 +79,9 @@ export default function BlogListPage() {
 
       {/* List */}
       <div style={{ padding: '40px 56px' }}>
-        {loading ? (
+        {errorMessage ? (
+          <div style={{ color: 'rgb(180,0,0)', fontSize: 12 }}>{errorMessage}</div>
+        ) : loading ? (
           <div style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--ink-soft)', paddingTop: 40 }}>
             loading…
           </div>

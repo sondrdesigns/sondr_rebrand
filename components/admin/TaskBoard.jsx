@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { TaskModal } from './TaskModal';
+import { apiErrorMessage } from '@/lib/client-api';
 
 const COLUMNS = [
   { status: 'todo', label: 'To Do', color: 'rgba(0,0,0,0.32)' },
@@ -95,13 +96,17 @@ function TaskCard({ task, members, onClick }) {
 export function TaskBoard({ projectId, members }) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   const [modal, setModal] = useState(null); // null | 'new' | task object
 
   const fetchTasks = useCallback(() => {
-    fetch(`/api/admin/tasks?projectId=${projectId}`)
-      .then(r => r.json())
+    fetch(`/api/admin/tasks?projectId=${encodeURIComponent(projectId)}`)
+      .then(async r => {
+        if (!r.ok) throw new Error(await apiErrorMessage(r, 'Unable to load tasks'));
+        return r.json();
+      })
       .then(data => { setTasks(data); setLoading(false); })
-      .catch(() => setLoading(false));
+      .catch(error => { setErrorMessage(error.message); setLoading(false); });
   }, [projectId]);
 
   useEffect(() => { fetchTasks(); }, [fetchTasks]);
@@ -131,6 +136,14 @@ export function TaskBoard({ projectId, members }) {
         fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em', color: 'var(--ink-soft)',
       }}>
         loading tasks…
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div style={{ padding: '40px 56px', color: 'rgb(180,0,0)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
+        {errorMessage}
       </div>
     );
   }
